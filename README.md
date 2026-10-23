@@ -162,8 +162,6 @@ Dữ liệu mẫu trong `data.sql` khởi tạo sẵn một tài khoản quản 
 
 Tài khoản này chỉ phục vụ mục đích thử nghiệm; cần thay đổi mật khẩu trước khi sử dụng trong môi trường thực tế. Người dùng mới có thể tự đăng ký tài khoản hoặc đăng nhập bằng Google, Facebook.
 
-Đây là thành phần tùy chọn, phục vụ riêng cho khâu triển khai. Khi chạy ứng dụng ở môi trường phát triển (chạy trực tiếp bằng Maven như hướng dẫn ở trên), thư mục này không được sử dụng.
-
 ## Liên hệ
 
 Mọi thắc mắc và góp ý về dự án, vui lòng tạo [Issue](https://github.com/hungkinang/BookingTour/issues) trên repository này.
