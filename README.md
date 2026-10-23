@@ -1,86 +1,177 @@
-# 🌍 BookingTour - Hệ Thống Đặt Tour Du Lịch Trực Tuyến
+# BookingTour — Hệ Thống Đặt Tour Du Lịch Trực Tuyến
 
-**BookingTour** là một ứng dụng web hiện đại được xây dựng trên nền tảng Spring Boot, giúp người dùng dễ dàng tìm kiếm, khám phá và đặt các tour du lịch hấp dẫn. Hệ thống cung cấp trải nghiệm mượt mà từ khâu chọn điểm đến đến khâu thanh toán trực tuyến.
+BookingTour là ứng dụng web đặt tour du lịch được phát triển trên nền tảng Spring Boot. Hệ thống hỗ trợ người dùng tìm kiếm, lọc và đặt tour theo điểm đến, ngày khởi hành và ngân sách; quản lý đơn đặt chỗ, thanh toán trực tuyến qua VNPay và đánh giá tour sau chuyến đi. Kèm theo đó là phân hệ quản trị phục vụ vận hành tour, đơn hàng, người dùng và theo dõi doanh thu.
 
----
+## Mục lục
 
-## ✨ Tính Năng Chính
+- [Tính năng](#tính-năng)
+- [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+- [Cấu trúc project](#cấu-trúc-project)
+- [Hướng dẫn cài đặt](#hướng-dẫn-cài-đặt)
+- [Cấu hình](#cấu-hình)
+- [Tài khoản mẫu](#tài-khoản-mẫu)
+- [Triển khai với Nginx](#triển-khai-với-nginx)
+- [Liên hệ](#liên-hệ)
 
-### 🛡️ Người Dùng (User)
-*   **Tìm Kiếm & Lọc Tour:** Tìm kiếm tours theo điểm đến, ngày khởi hành, giá cả và phương tiện.
-*   **Xem Chi Tiết Tour:** Thông tin chi tiết về lịch trình, điểm đón, nơi lưu trú và đánh giá từ khách hàng khác.
-*   **Đặt Chỗ (Booking):** Quy trình đặt tour nhanh chóng, quản lý số lượng chỗ còn trống.
-*   **Thanh Toán Trực Tuyến:** Tích hợp cổng thanh toán **VNPay** an toàn và tiện lợi.
-*   **Quản Lý Tài Khoản:** Đăng nhập (hỗ trợ **OAuth2 Google**), xem lịch sử đặt tour, quản lý tour yêu thích.
-*   **Đánh Giá & Phản Hồi:** Gửi nhận xét và chấm điểm cho các tour đã tham gia.
+## Tính năng
 
-### ⚙️ Quản Trị Viên (Admin)
-*   **Quản Lý Tour:** Thêm, sửa, xóa các tour du lịch, quản lý ngày khởi hành và lịch trình.
-*   **Quản Lý Đơn Hàng:** Theo dõi danh sách đặt chỗ, xác nhận thanh toán và trạng thái tour.
-*   **Thống Kê & Báo Cáo:** Theo dõi doanh thu và lượt đặt tour qua biểu đồ trực quan.
-*   **Quản Lý Người Dùng & Liên Hệ:** Tiếp nhận thông tin liên hệ và quản lý danh sách khách hàng.
+### Phân hệ người dùng
 
----
+| Chức năng | Mô tả |
+|---|---|
+| Tìm kiếm và lọc tour | Lọc danh sách tour theo thành phố, quốc gia, điểm đến, khoảng giá và ngày khởi hành; hỗ trợ sắp xếp kết quả và phân trang. |
+| Chi tiết tour | Hiển thị đầy đủ thông tin lịch trình, điểm đón, nơi lưu trú và phương tiện; ngày khởi hành được trình bày dạng lịch trong phạm vi 3 tháng để người dùng chọn ngày còn mở bán. |
+| Đặt tour | Đặt chỗ theo ngày khởi hành và số lượng khách; hệ thống quản lý số chỗ còn trống của từng chuyến đi. |
+| Thanh toán trực tuyến | Thanh toán qua cổng VNPay (môi trường sandbox), hiển thị kết quả giao dịch và hỗ trợ thanh toán lại đối với đơn chưa hoàn tất thanh toán. |
+| Tra cứu giá vé máy bay | Truy xuất giá vé máy bay rẻ nhất cho hành trình liên quan đến tour thông qua Amadeus API. |
+| Quản lý tài khoản | Đăng ký và đăng nhập bằng tài khoản nội bộ hoặc OAuth2 (Google, Facebook); cập nhật hồ sơ, thay đổi mật khẩu và ảnh đại diện. |
+| Lịch sử đặt tour | Theo dõi toàn bộ đơn đã đặt cùng trạng thái xác nhận và thanh toán. |
+| Tour yêu thích | Lưu các tour quan tâm để xem lại và đặt sau. |
+| Đánh giá tour | Chấm điểm và gửi nhận xét cho các tour đã tham gia; điểm trung bình được hiển thị tại trang chi tiết tour. |
+| Liên hệ | Gửi yêu cầu, góp ý tới ban quản trị thông qua biểu mẫu liên hệ trên website. |
 
-## 🛠️ Công Nghệ Sử Dụng
+### Phân hệ quản trị
 
-*   **Backend:** Java 17, Spring Boot 3.x
-*   **Security:** Spring Security (Form Login & OAuth2 Google)
-*   **Database:** MySQL, Spring Data JPA
-*   **Frontend:** Thymeleaf, HTML5, CSS3, JavaScript
-*   **Payment:** VNPay API Integration
-*   **API:** Amadeus API (dành cho các dịch vụ liên quan đến chuyến bay/du lịch)
-*   **Công cụ khác:** Lombok, Maven, Git
+| Chức năng | Mô tả |
+|---|---|
+| Dashboard và báo cáo | Màn hình tổng quan kèm biểu đồ doanh thu theo tháng và báo cáo hiệu quả kinh doanh theo từng tour. |
+| Quản lý tour | Thêm, sửa, xóa tour; quản lý danh sách tour đang mở bán, tour đã hoàn thành và gia hạn thời gian bán tour. |
+| Quản lý ngày khởi hành | Thiết lập các ngày khởi hành, giá vé và số chỗ cho từng tour. |
+| Quản lý lịch trình | Xây dựng và chỉnh sửa lịch trình chi tiết của từng tour. |
+| Quản lý đặt chỗ | Xem danh sách đơn đặt theo tour, theo dõi trạng thái xác nhận và thanh toán. |
+| Quản lý người dùng | Thêm, sửa, xóa tài khoản người dùng; xem tổng chi tiêu của từng khách hàng. |
+| Quản lý đánh giá | Xem và kiểm duyệt đánh giá của khách hàng theo tour. |
+| Quản lý liên hệ | Tiếp nhận và xử lý các liên hệ do khách hàng gửi về. |
 
----
+## Công nghệ sử dụng
 
-## 📂 Cấu Trúc Project
+| Hạng mục | Công nghệ |
+|---|---|
+| Ngôn ngữ lập trình | Java 17 |
+| Framework | Spring Boot 3.5.6 (Spring Web, Spring Data JPA, Spring Security, OAuth2 Client) |
+| Giao diện | Thymeleaf, Bootstrap, HTML5, CSS3, JavaScript |
+| Cơ sở dữ liệu | MySQL 8.0, Hibernate, JPA Specifications |
+| Bảo mật | Spring Security, đăng nhập biểu mẫu và OAuth2 (Google, Facebook), mã hóa mật khẩu BCrypt |
+| Thanh toán | VNPay API |
+| API bên thứ ba | Amadeus API (dữ liệu chuyến bay, giá vé) |
+| Công cụ xây dựng | Maven, Maven Wrapper, Lombok, Git |
 
-```text
-src/main/java/edu/bookingtour/
-├── client/         # Client gọi API bên thứ 3 (Amadeus, VNPay)
-├── config/         # Cấu hình hệ thống (Security, VNPay, MVC)
-├── controller/     # Xử lý Request từ người dùng (Admin & User)
-├── dto/            # Data Transfer Objects
-├── entity/         # Các thực thể database (JPA)
-├── repo/           # Interface tương tác với database
-└── service/        # Xử lý logic nghiệp vụ
+## Cấu trúc project
+
+```
+BookingTour/
+|-- nginx/
+|   `-- nginx.conf              # Cấu hình Nginx cho triển khai (tùy chọn)
+|-- src/
+|   |-- main/
+|   |   |-- java/edu/bookingtour/
+|   |   |   |-- BookingTourApplication.java
+|   |   |   |-- client/         # Client gọi API bên thứ ba (Amadeus)
+|   |   |   |-- config/         # Cấu hình bảo mật, VNPay, Web MVC, khởi tạo dữ liệu
+|   |   |   |-- controller/
+|   |   |   |   |-- admin/      # Controller phân hệ quản trị (/admin/**)
+|   |   |   |   `-- user/       # Controller phân hệ người dùng
+|   |   |   |-- dto/            # Data Transfer Objects
+|   |   |   |-- entity/         # Các thực thể JPA
+|   |   |   |-- repo/           # Spring Data JPA Repositories
+|   |   |   |-- service/        # Logic nghiệp vụ
+|   |   |   `-- specifications/ # JPA Specification phục vụ tìm kiếm, lọc tour
+|   |   `-- resources/
+|   |       |-- application.properties
+|   |       |-- data.sql            # Dữ liệu mẫu, tự động nạp khi khởi động
+|   |       |-- db/bookingtour.sql  # Bản dump cơ sở dữ liệu đầy đủ
+|   |       |-- static/             # CSS, JavaScript, hình ảnh
+|   |       `-- templates/          # Giao diện Thymeleaf
+|   `-- test/
+|-- mvnw
+|-- mvnw.cmd
+`-- pom.xml
 ```
 
----
+## Hướng dẫn cài đặt
 
-## 🚀 Hướng Dẫn Cài Đặt
+### Yêu cầu hệ thống
 
-### 1. Yêu Cầu Hệ Thống
-*   Java JDK 17+
-*   MySQL Server 8.0+
-*   Maven 3.x
+- JDK 17 trở lên
+- MySQL Server 8.0 trở lên
+- Maven 3.x, hoặc sử dụng Maven Wrapper (`mvnw`) đi kèm project
 
-### 2. Cài Đặt Database
-1. Tạo một database mới trong MySQL:
-   ```sql
-   CREATE DATABASE booking_tour CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   ```
-2. Cấu hình thông tin kết nối trong file `src/main/resources/application.properties` (hoặc file `.env` nếu có).
+### Các bước cài đặt
 
-### 3. Chạy Ứng Dụng
-1. Clone dự án về máy:
-   ```bash
-   git clone https://github.com/DucZaki/Booking-Tour.git
-   ```
-2. Di chuyển vào thư mục dự án:
-   ```bash
-   cd Booking-Tour
-   ```
-3. Chạy ứng dụng bằng Maven:
-   ```bash
-   mvn spring-boot:run
-   ```
-4. Truy cập vào trình duyệt: `http://localhost:8080`
+**Bước 1 — Clone project**
 
-## 📞 Liên Hệ
+```bash
+git clone https://github.com/hungkinang/BookingTour.git
+cd BookingTour
+```
 
-Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với các thành viên nhóm hoặc qua github dự án.
+**Bước 2 — Tạo cơ sở dữ liệu**
 
----
-*Cảm ơn bạn đã quan tâm đến dự án của chúng tôi!* 😊
+```sql
+CREATE DATABASE booking_tour CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Khi khởi động lần đầu, ứng dụng tự động tạo bảng theo các entity (`spring.jpa.hibernate.ddl-auto=update`) và nạp dữ liệu mẫu từ `data.sql`. Nếu cần bộ dữ liệu đầy đủ, import file `src/main/resources/db/bookingtour.sql` vào database `booking_tour` thay cho bước này.
+
+**Bước 3 — Cấu hình ứng dụng** (xem mục [Cấu hình](#cấu-hình))
+
+**Bước 4 — Khởi chạy**
+
+```bash
+# Windows
+mvnw.cmd spring-boot:run
+
+# macOS / Linux
+./mvnw spring-boot:run
+```
+
+**Bước 5 — Truy cập hệ thống** tại địa chỉ `http://localhost:8080`
+
+## Cấu hình
+
+Các thông số kết nối và tích hợp được khai báo trong `src/main/resources/application.properties`:
+
+```properties
+# Cơ sở dữ liệu
+spring.datasource.url=jdbc:mysql://localhost:3306/booking_tour
+spring.datasource.username=<db_username>
+spring.datasource.password=<db_password>
+
+# OAuth2 (Google, Facebook)
+spring.security.oauth2.client.registration.google.client-id=<google_client_id>
+spring.security.oauth2.client.registration.google.client-secret=<google_client_secret>
+
+# Amadeus API
+amadeus.api.key=<amadeus_api_key>
+amadeus.api.secret=<amadeus_api_secret>
+
+# VNPay (một số giá trị có thể ghi đè bằng biến môi trường)
+vnp.tmn-code=${VNP_TMN_CODE:<tmn_code>}
+vnp.hash-secret=<vnpay_hash_secret>
+```
+
+**Lưu ý bảo mật:** Không đưa thông tin bí mật thật (mật khẩu cơ sở dữ liệu, client secret, khóa API, VNPay hash secret) vào mã nguồn được đẩy lên GitHub. Khi triển khai thực tế, các giá trị này cần được cung cấp qua biến môi trường hoặc file cấu hình nằm ngoài version control.
+
+## Tài khoản mẫu
+
+Dữ liệu mẫu trong `data.sql` khởi tạo sẵn một tài khoản quản trị:
+
+| Vai trò | Tên đăng nhập | Mật khẩu |
+|---|---|---|
+| Quản trị viên | `admin` | `admin123` |
+
+Tài khoản này chỉ phục vụ mục đích thử nghiệm; cần thay đổi mật khẩu trước khi sử dụng trong môi trường thực tế. Người dùng mới có thể tự đăng ký tài khoản hoặc đăng nhập bằng Google, Facebook.
+
+## Triển khai với Nginx
+
+Thư mục `nginx/` chỉ chứa file `nginx.conf` — cấu hình mẫu để triển khai ứng dụng trong môi trường production, trong đó Nginx đóng vai trò reverse proxy:
+
+- Chuyển tiếp toàn bộ request từ cổng 80 tới ứng dụng Spring Boot tại `backend:8080`.
+- Phục vụ tài nguyên tĩnh tại đường dẫn `/static/` với chính sách cache 30 ngày nhằm giảm tải cho backend.
+- Cung cấp endpoint `/health` để kiểm tra tình trạng hoạt động của ứng dụng.
+
+Đây là thành phần tùy chọn, phục vụ riêng cho khâu triển khai. Khi chạy ứng dụng ở môi trường phát triển (chạy trực tiếp bằng Maven như hướng dẫn ở trên), thư mục này không được sử dụng.
+
+## Liên hệ
+
+Mọi thắc mắc và góp ý về dự án, vui lòng tạo [Issue](https://github.com/hungkinang/BookingTour/issues) trên repository này.
