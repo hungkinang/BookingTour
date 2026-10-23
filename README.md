@@ -162,14 +162,6 @@ Dữ liệu mẫu trong `data.sql` khởi tạo sẵn một tài khoản quản 
 
 Tài khoản này chỉ phục vụ mục đích thử nghiệm; cần thay đổi mật khẩu trước khi sử dụng trong môi trường thực tế. Người dùng mới có thể tự đăng ký tài khoản hoặc đăng nhập bằng Google, Facebook.
 
-## Triển khai với Nginx
-
-Thư mục `nginx/` chỉ chứa file `nginx.conf` — cấu hình mẫu để triển khai ứng dụng trong môi trường production, trong đó Nginx đóng vai trò reverse proxy:
-
-- Chuyển tiếp toàn bộ request từ cổng 80 tới ứng dụng Spring Boot tại `backend:8080`.
-- Phục vụ tài nguyên tĩnh tại đường dẫn `/static/` với chính sách cache 30 ngày nhằm giảm tải cho backend.
-- Cung cấp endpoint `/health` để kiểm tra tình trạng hoạt động của ứng dụng.
-
 Đây là thành phần tùy chọn, phục vụ riêng cho khâu triển khai. Khi chạy ứng dụng ở môi trường phát triển (chạy trực tiếp bằng Maven như hướng dẫn ở trên), thư mục này không được sử dụng.
 
 ## Liên hệ
