@@ -16,9 +16,7 @@ public class AuthController {
     @Autowired
     private NguoiDungService nguoiDungService;
 
-    /**
-     * Hiển thị trang đăng nhập
-     */
+    
     @GetMapping("/login")
     public String showLoginPage(
             @RequestParam(value = "error", required = false) String error,
@@ -40,9 +38,7 @@ public class AuthController {
         return "login/login";
     }
 
-    /**
-     * Hiển thị trang đăng ký
-     */
+    
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("nguoiDung", new NguoiDung());
@@ -85,13 +81,10 @@ public class AuthController {
         }
     }
 
-    /**
-     * Chuyển hướng sau khi đăng nhập thành công
-     */
+    
     @GetMapping("/redirect-after-login")
     public String redirectAfterLogin(Authentication authentication) {
 
-        // Kiểm tra vai trò và chuyển hướng tương ứng
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             return "redirect:/admin";
         } else {
@@ -99,9 +92,7 @@ public class AuthController {
         }
     }
 
-    /**
-     * Trang lỗi khi không có quyền truy cập
-     */
+    
     @GetMapping("/access-denied")
     public String accessDenied(Model model) {
         model.addAttribute("errorMessage", "Bạn không có quyền truy cập trang này!");

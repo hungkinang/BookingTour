@@ -9,200 +9,524 @@
 
 <body>
     <th:block th:fragment="content">
-        <div class="container pt-5" style="margin-top: 30px;">
-            <nav aria-label="breadcrumb" class="mb-3">
-                <ol class="breadcrumb small">
-                    <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/tour}" class="text-decoration-none">Tour</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/tour/{id}(id=${tour.id})}" class="text-decoration-none"
-                            th:text="${tour.tieuDe}">Tour</a></li>
-                    <li class="breadcrumb-item active">Đặt tour</li>
-                </ol>
-            </nav>
+        <style>
+            /* Colors & Typography */
+            .booking-container {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif;
+                background-color: #f8fafc;
+                padding-bottom: 80px;
+            }
 
-            <div class="row">
-                <!-- Form bên trái -->
-                <div class="col-lg-8">
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-primary text-white py-3">
-                            <h5 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill me-2"></i>THÔNG TIN LIÊN LẠC</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <form th:action="@{/booking/submit}" method="post" id="bookingForm">
-                                <input type="hidden" name="tourId" th:value="${tour.id}">
-                                <input type="hidden" name="nkhId" th:value="${nkh.id}">
+            .card-premium {
+                background: #ffffff;
+                border-radius: 16px;
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+                margin-bottom: 30px;
+                overflow: hidden;
+            }
 
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Họ và tên <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" name="hoTen" class="form-control"
-                                            placeholder="Nhập họ và tên" th:value="${userHoTen}" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Email <span
-                                                class="text-danger">*</span></label>
-                                        <input type="email" name="email" class="form-control" placeholder="Nhập email"
-                                            th:value="${userEmail}" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Số điện thoại <span
-                                                class="text-danger">*</span></label>
-                                        <input type="tel" name="soDienThoai" class="form-control"
-                                            placeholder="Nhập số điện thoại" th:value="${userSoDienThoai}" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Số lượng khách <span
-                                                class="text-danger">*</span></label>
-                                        <input type="number" name="soLuong" class="form-control" value="1" min="1"
-                                            max="20" required id="soLuongInput">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label fw-bold">Địa chỉ</label>
-                                        <input type="text" name="diaChi" class="form-control"
-                                            placeholder="Nhập địa chỉ">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label fw-bold">Ghi chú</label>
-                                        <textarea name="ghiChu" class="form-control" rows="3"
-                                            placeholder="Yêu cầu đặc biệt..."></textarea>
+            .card-premium .card-header-premium {
+                background: #003c71;
+                color: #ffffff;
+                padding: 18px 24px;
+                font-weight: 700;
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .card-premium .card-header-premium-blue {
+                background: #0052b4;
+            }
+
+            .booking-notice {
+                background-color: #f0f7ff;
+                border-left: 4px solid #0052b4;
+                padding: 16px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                color: #1e3a8a;
+                margin-bottom: 24px;
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .booking-notice i {
+                font-size: 1.2rem;
+                color: #0052b4;
+                margin-top: 2px;
+                flex-shrink: 0;
+            }
+
+            /* Custom form fields */
+            .form-label-premium {
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: #475569;
+                margin-bottom: 6px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .form-control-premium {
+                border: 1px solid #cbd5e1 !important;
+                background-color: #ffffff !important;
+                border-radius: 12px !important;
+                padding: 12px 16px !important;
+                font-size: 0.95rem !important;
+                font-weight: 500 !important;
+                color: #0f172a !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .form-control-premium:focus {
+                border-color: #0052b4 !important;
+                box-shadow: 0 0 0 4px rgba(0, 82, 180, 0.12) !important;
+            }
+
+            .form-control-premium::placeholder {
+                color: #94a3b8;
+                font-weight: 400;
+            }
+
+            /* Flight info design */
+            .flight-leg-premium {
+                padding: 24px;
+            }
+            
+            .flight-leg-premium:not(:last-child) {
+                border-bottom: 1px solid #f1f5f9;
+            }
+
+            .leg-title-badge {
+                padding: 6px 14px;
+                border-radius: 30px;
+                font-size: 0.75rem;
+                font-weight: 800;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+            }
+
+            .leg-title-badge.going {
+                background-color: #dcfce7;
+                color: #15803d;
+            }
+
+            .leg-title-badge.return {
+                background-color: #fef9c3;
+                color: #854d0e;
+            }
+
+            .flight-time {
+                font-size: 1.8rem;
+                font-weight: 800;
+                color: #0f172a;
+                line-height: 1;
+            }
+
+            .flight-airport {
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: #334155;
+                margin-top: 4px;
+            }
+
+            .flight-city {
+                font-size: 0.78rem;
+                color: #64748b;
+            }
+
+            .flight-duration-line {
+                position: relative;
+                text-align: center;
+            }
+
+            .flight-duration-line hr {
+                margin: 0;
+                border-color: #cbd5e1;
+                opacity: 0.8;
+            }
+
+            .flight-icon-circle {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #ffffff;
+                padding: 4px 10px;
+                border-radius: 50%;
+                border: 1px solid #cbd5e1;
+                color: #0052b4;
+                font-size: 0.95rem;
+            }
+
+            /* Sidebar Booking Slip */
+            .booking-slip-card {
+                background: #ffffff;
+                border-radius: 20px;
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+                overflow: hidden;
+                position: sticky;
+                top: 90px;
+            }
+
+            .booking-slip-header {
+                background-color: #ffffff;
+                padding: 20px 24px;
+                border-bottom: 1px solid #f1f5f9;
+            }
+
+            .booking-slip-title {
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: #0f172a;
+                line-height: 1.4;
+            }
+
+            .booking-slip-body {
+                padding: 24px;
+            }
+
+            .booking-slip-thumb {
+                width: 100%;
+                height: 160px;
+                object-fit: cover;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                border: 1px solid #f1f5f9;
+            }
+
+            .slip-meta-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+
+            .slip-meta-icon {
+                font-size: 1.1rem;
+                color: #0052b4;
+                flex-shrink: 0;
+                margin-top: 2px;
+            }
+
+            .slip-meta-content {
+                font-size: 0.85rem;
+                color: #64748b;
+                line-height: 1.4;
+            }
+
+            .slip-meta-content strong {
+                color: #0f172a;
+                display: block;
+                font-size: 0.9rem;
+                margin-top: 2px;
+            }
+
+            .slip-price-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+                font-size: 0.9rem;
+                color: #475569;
+            }
+
+            .slip-price-row strong {
+                color: #0f172a;
+                font-weight: 700;
+            }
+
+            .slip-price-total {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                margin-top: 15px;
+                margin-bottom: 20px;
+            }
+
+            .slip-price-total span {
+                font-weight: 800;
+                color: #0f172a;
+                font-size: 1.05rem;
+            }
+
+            .slip-price-total h3 {
+                color: #e01027 !important;
+                font-weight: 900;
+                font-size: 1.6rem;
+                margin: 0;
+                line-height: 1;
+            }
+
+            .btn-confirm-booking {
+                background: linear-gradient(135deg, #e01027 0%, #ff4b5a 100%);
+                border: none !important;
+                color: #ffffff !important;
+                padding: 16px;
+                border-radius: 40px;
+                font-weight: 800;
+                font-size: 1.1rem;
+                width: 100%;
+                box-shadow: 0 8px 24px rgba(224, 16, 39, 0.25);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .btn-confirm-booking:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 30px rgba(224, 16, 39, 0.35);
+                background: linear-gradient(135deg, #c90a1f 0%, #f63e4f 100%);
+            }
+        </style>
+
+        <div class="booking-container pt-5">
+            <div class="container" style="margin-top: 30px;">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb small">
+                        <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none text-muted">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/tour}" class="text-decoration-none text-muted">Tour</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/tour/{id}(id=${tour.id})}" class="text-decoration-none text-muted"
+                                th:text="${tour.tieuDe}">Tour</a></li>
+                        <li class="breadcrumb-item active text-dark fw-bold">Đặt tour</li>
+                    </ol>
+                </nav>
+
+                <div class="row g-4">
+                    
+                    <div class="col-lg-8">
+                        <div class="card card-premium shadow-sm">
+                            <div class="card-header-premium">
+                                <i class="bi bi-person-lines-fill fs-5"></i> THÔNG TIN LIÊN LẠC
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="booking-notice">
+                                    <i class="bi-exclamation-circle-fill"></i>
+                                    <div>
+                                        <strong>Lưu ý:</strong> Các trường có dấu (<span class="text-danger">*</span>) là bắt buộc. Xin vui lòng cung cấp thông tin liên hệ chính xác để chúng tôi tiến hành gửi vé điện tử và liên lạc khi cần thiết.
                                     </div>
                                 </div>
-                            </form>
+
+                                <form th:action="@{/booking/submit}" method="post" id="bookingForm">
+                                    <input type="hidden" name="tourId" th:value="${tour.id}">
+                                    <input type="hidden" name="nkhId" th:value="${nkh.id}">
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label-premium">Họ và tên <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" name="hoTen" class="form-control form-control-premium"
+                                                placeholder="Nhập đầy đủ họ tên hành khách" th:value="${userHoTen}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-premium">Email <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="email" name="email" class="form-control form-control-premium" 
+                                                placeholder="Nhập email nhận vé điện tử" th:value="${userEmail}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-premium">Số điện thoại <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="tel" name="soDienThoai" class="form-control form-control-premium"
+                                                placeholder="Nhập số điện thoại liên lạc" th:value="${userSoDienThoai}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-premium">Số lượng khách <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" name="soLuong" class="form-control form-control-premium" 
+                                                value="1" min="1" max="20" required id="soLuongInput">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label-premium">Địa chỉ liên hệ</label>
+                                            <input type="text" name="diaChi" class="form-control form-control-premium"
+                                                placeholder="Nhập địa chỉ hiện tại của bạn">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label-premium">Yêu cầu đặc biệt (Ghi chú)</label>
+                                            <textarea name="ghiChu" class="form-control form-control-premium" rows="3"
+                                                placeholder="Ghi chú về ăn uống, chỗ ngồi hoặc lưu ý phòng nghỉ..."></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card card-premium shadow-sm">
+                            <div class="card-header-premium card-header-premium-blue">
+                                <i class="bi bi-airplane me-2"></i> THÔNG TIN CHUYẾN BAY
+                            </div>
+                            <div class="card-body p-0">
+                                
+                                <div class="flight-leg-premium">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="leg-title-badge going"><i class="bi bi-airplane-fill"></i> Chiều đi</span>
+                                        <span class="text-muted small fw-bold"
+                                            th:text="'Ngày ' + ${#temporals.format(nkh.ngay, 'dd/MM/yyyy')}"></span>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3 text-center text-md-start ps-md-4">
+                                            <div class="flight-time" th:text="${nkh.gioBayDi ?: 'N/A'}"></div>
+                                            <div class="flight-airport">HAN</div>
+                                            <div class="flight-city">Sân bay Nội Bài (Hà Nội)</div>
+                                        </div>
+                                        <div class="col-md-6 my-3 my-md-0">
+                                            <div class="flight-duration-line">
+                                                <hr>
+                                                <div class="flight-icon-circle">
+                                                    <i class="bi bi-airplane-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="text-center small text-muted mt-2">
+                                                Mã chuyến bay: <strong class="text-dark" th:text="${nkh.maChuyenBayDi ?: 'N/A'}"></strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-center text-md-end pe-md-4">
+                                            <div class="flight-time" th:text="${nkh.gioDenDi ?: 'N/A'}"></div>
+                                            <div class="flight-airport">SGN</div>
+                                            <div class="flight-city">Sân bay Tân Sơn Nhất (TP.HCM)</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-3 border-top pt-2">
+                                        <span class="small text-muted me-1">Giá vé đi/khách:</span>
+                                        <span class="text-danger fw-bold"
+                                            th:text="${nkh.giaVeDi != null ? #numbers.formatDecimal(nkh.giaVeDi, 0, 'COMMA', 0, 'POINT') + ' ₫' : 'N/A'}"></span>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="flight-leg-premium">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="leg-title-badge return"><i class="bi bi-airplane-fill" style="transform: scaleX(-1);"></i> Chiều về</span>
+                                        <span class="text-muted small"
+                                            th:text="${nkh.ngayVe != null ? 'Ngày ' + #temporals.format(nkh.ngayVe, 'dd/MM/yyyy') : ''}"></span>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3 text-center text-md-start ps-md-4">
+                                            <div class="flight-time" th:text="${nkh.gioBayVe ?: 'N/A'}"></div>
+                                            <div class="flight-airport">SGN</div>
+                                            <div class="flight-city">Sân bay Tân Sơn Nhất (TP.HCM)</div>
+                                        </div>
+                                        <div class="col-md-6 my-3 my-md-0">
+                                            <div class="flight-duration-line">
+                                                <hr>
+                                                <div class="flight-icon-circle">
+                                                    <i class="bi bi-airplane-fill" style="transform: scaleX(-1);"></i>
+                                                </div>
+                                            </div>
+                                            <div class="text-center small text-muted mt-2">
+                                                Mã chuyến bay: <strong class="text-dark" th:text="${nkh.maChuyenBayVe ?: 'N/A'}"></strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-center text-md-end pe-md-4">
+                                            <div class="flight-time" th:text="${nkh.gioDenVe ?: 'N/A'}"></div>
+                                            <div class="flight-airport">HAN</div>
+                                            <div class="flight-city">Sân bay Nội Bài (Hà Nội)</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-3 border-top pt-2">
+                                        <span class="small text-muted me-1">Giá vé về/khách:</span>
+                                        <span class="text-danger fw-bold"
+                                            th:text="${nkh.giaVeVe != null ? #numbers.formatDecimal(nkh.giaVeVe, 0, 'COMMA', 0, 'POINT') + ' ₫' : 'N/A'}"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Thông tin chuyến bay -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-info text-white py-3">
-                            <h5 class="mb-0 fw-bold"><i class="bi bi-airplane me-2"></i>THÔNG TIN CHUYẾN BAY</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <!-- Chiều đi -->
-                            <div class="p-4 border-bottom">
-                                <div class="d-flex align-items-center mb-3">
-                                    <span class="badge bg-success me-2 px-3 py-2">CHIỀU ĐI</span>
-                                    <span class="text-muted small"
-                                        th:text="'Ngày ' + ${#temporals.format(nkh.ngay, 'dd/MM/yyyy')}"></span>
-                                </div>
-                                <div class="row align-items-center">
-                                    <div class="col-md-3 text-center">
-                                        <div class="fs-3 fw-bold text-dark" th:text="${nkh.gioBayDi ?: 'N/A'}"></div>
-                                        <div class="small text-muted">HAN - Hà Nội</div>
-                                    </div>
-                                    <div class="col-md-6 text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <hr class="flex-grow-1">
-                                            <i class="bi bi-airplane-fill text-primary mx-3 fs-5"></i>
-                                            <hr class="flex-grow-1">
-                                        </div>
-                                        <div class="small text-muted" th:text="${nkh.maChuyenBayDi ?: 'N/A'}"></div>
-                                    </div>
-                                    <div class="col-md-3 text-center">
-                                        <div class="fs-3 fw-bold text-dark" th:text="${nkh.gioDenDi ?: 'N/A'}"></div>
-                                        <div class="small text-muted">SGN - TP.HCM</div>
-                                    </div>
-                                </div>
-                                <div class="text-end mt-2">
-                                    <span class="text-danger fw-bold"
-                                        th:text="${nkh.giaVeDi != null ? #numbers.formatDecimal(nkh.giaVeDi, 0, 'COMMA', 0, 'POINT') + ' VND' : 'N/A'}"></span>
-                                </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="booking-slip-card shadow-sm">
+                            <div class="booking-slip-header">
+                                <div class="small text-muted text-uppercase fw-bold tracking-wider mb-1">Phiếu xác nhận</div>
+                                <h6 class="booking-slip-title text-primary" th:text="${tour.tieuDe}">Tên Tour</h6>
                             </div>
+                            <div class="booking-slip-body">
+                                <img th:src="${tour.hinhAnh}" class="booking-slip-thumb shadow-sm" alt="Ảnh tour">
 
-                            <!-- Chiều về -->
-                            <div class="p-4">
-                                <div class="d-flex align-items-center mb-3">
-                                    <span class="badge bg-warning text-dark me-2 px-3 py-2">CHIỀU VỀ</span>
-                                    <span class="text-muted small"
-                                        th:text="${nkh.ngayVe != null ? 'Ngày ' + #temporals.format(nkh.ngayVe, 'dd/MM/yyyy') : ''}"></span>
-                                </div>
-                                <div class="row align-items-center">
-                                    <div class="col-md-3 text-center">
-                                        <div class="fs-3 fw-bold text-dark" th:text="${nkh.gioBayVe ?: 'N/A'}"></div>
-                                        <div class="small text-muted">SGN - TP.HCM</div>
-                                    </div>
-                                    <div class="col-md-6 text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <hr class="flex-grow-1">
-                                            <i class="bi bi-airplane-fill text-primary mx-3 fs-5"
-                                                style="transform: scaleX(-1);"></i>
-                                            <hr class="flex-grow-1">
-                                        </div>
-                                        <div class="small text-muted" th:text="${nkh.maChuyenBayVe ?: 'N/A'}"></div>
-                                    </div>
-                                    <div class="col-md-3 text-center">
-                                        <div class="fs-3 fw-bold text-dark" th:text="${nkh.gioDenVe ?: 'N/A'}"></div>
-                                        <div class="small text-muted">HAN - Hà Nội</div>
+                                <div class="slip-meta-item">
+                                    <i class="bi bi-ticket-perforated slip-meta-icon"></i>
+                                    <div class="slip-meta-content">
+                                        Mã Booking
+                                        <strong th:text="'BK-DOM-' + ${tour.id} + '-' + ${nkh.id}">BK-DOM-01</strong>
                                     </div>
                                 </div>
-                                <div class="text-end mt-2">
-                                    <span class="text-danger fw-bold"
-                                        th:text="${nkh.giaVeVe != null ? #numbers.formatDecimal(nkh.giaVeVe, 0, 'COMMA', 0, 'POINT') + ' VND' : 'N/A'}"></span>
+
+                                <div class="slip-meta-item">
+                                    <i class="bi bi-geo-alt slip-meta-icon"></i>
+                                    <div class="slip-meta-content">
+                                        Điểm đón
+                                        <strong th:text="${tour.idDiemDon != null ? tour.idDiemDon.ten : 'Hà Nội'}">Hà Nội</strong>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Sidebar bên phải -->
-                <div class="col-lg-4">
-                    <div class="card shadow-sm border-0 sticky-price-box">
-                        <div class="card-header bg-white py-3 border-bottom">
-                            <h6 class="fw-bold mb-0 text-primary" th:text="${tour.tieuDe}"></h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small"><i class="bi bi-geo-alt me-1"></i> Điểm đón:</span>
-                                <strong class="small"
-                                    th:text="${tour.idDiemDon != null ? tour.idDiemDon.ten : 'Hà Nội'}"></strong>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> Ngày đi:</span>
-                                <strong class="small" th:text="${#temporals.format(nkh.ngay, 'dd/MM/yyyy')}"></strong>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> Ngày về:</span>
-                                <strong class="small"
-                                    th:text="${nkh.ngayVe != null ? #temporals.format(nkh.ngayVe, 'dd/MM/yyyy') : 'N/A'}"></strong>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="small">Giá dịch vụ tour:</span>
-                                <span class="small fw-bold"
-                                    th:text="${#numbers.formatDecimal(tour.gia, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="small">Vé máy bay (đi):</span>
-                                <span class="small fw-bold"
-                                    th:text="${nkh.giaVeDi != null ? #numbers.formatDecimal(nkh.giaVeDi, 0, 'COMMA', 0, 'POINT') + ' ₫' : 'N/A'}"></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="small">Vé máy bay (về):</span>
-                                <span class="small fw-bold"
-                                    th:text="${nkh.giaVeVe != null ? #numbers.formatDecimal(nkh.giaVeVe, 0, 'COMMA', 0, 'POINT') + ' ₫' : 'N/A'}"></span>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between mb-1">
-                                <span class="fw-bold">Giá/khách:</span>
-                                <span class="text-danger fw-bold"
-                                    th:text="${#numbers.formatDecimal(tongGia, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3" id="totalLine">
-                                <span class="fw-bold fs-5">TỔNG CỘNG:</span>
-                                <span class="text-danger fw-bold fs-5" id="totalPrice"
-                                    th:text="${#numbers.formatDecimal(tongGia, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
-                                    th:data-unit-price="${tongGia}"></span>
-                            </div>
+                                <div class="slip-meta-item">
+                                    <i class="bi bi-calendar3 slip-meta-icon"></i>
+                                    <div class="slip-meta-content">
+                                        Ngày đi
+                                        <strong th:text="${#temporals.format(nkh.ngay, 'dd/MM/yyyy')}">02/06/2026</strong>
+                                    </div>
+                                </div>
 
-                            <button type="submit" form="bookingForm" class="btn btn-danger w-100 py-3 fw-bold fs-5">
-                                <i class="bi bi-check-circle me-2"></i> XÁC NHẬN ĐẶT TOUR
-                            </button>
+                                <div class="slip-meta-item">
+                                    <i class="bi bi-calendar3 slip-meta-icon"></i>
+                                    <div class="slip-meta-content">
+                                        Ngày về (dự kiến)
+                                        <strong th:text="${nkh.ngayVe != null ? #temporals.format(nkh.ngayVe, 'dd/MM/yyyy') : 'N/A'}">06/06/2026</strong>
+                                    </div>
+                                </div>
 
-                            <div class="mt-3 text-center">
-                                <a th:href="@{/tour/{id}(id=${tour.id}, selectedDate=${nkh.ngay}, month=${nkh.thang}, year=${nkh.nam})}"
-                                    class="text-decoration-none small text-muted">
-                                    <i class="bi bi-arrow-left me-1"></i> Quay lại chi tiết tour
-                                </a>
+                                <div class="slip-meta-item">
+                                    <i class="bi bi-people slip-meta-icon"></i>
+                                    <div class="slip-meta-content">
+                                        Số lượng hành khách
+                                        <strong id="slipSoLuongText">1 khách</strong>
+                                    </div>
+                                </div>
+
+                                <hr class="text-muted opacity-25 my-3">
+
+                                <div class="slip-price-row">
+                                    <span>Giá dịch vụ tour:</span>
+                                    <strong th:text="${#numbers.formatDecimal(tour.tongGia, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></strong>
+                                </div>
+                                <div class="slip-price-row">
+                                    <span>Vé máy bay (đi):</span>
+                                    <strong th:text="${nkh.giaVeDi != null ? #numbers.formatDecimal(nkh.giaVeDi, 0, 'COMMA', 0, 'POINT') + ' ₫' : '0 ₫'}"></strong>
+                                </div>
+                                <div class="slip-price-row">
+                                    <span>Vé máy bay (về):</span>
+                                    <strong th:text="${nkh.giaVeVe != null ? #numbers.formatDecimal(nkh.giaVeVe, 0, 'COMMA', 0, 'POINT') + ' ₫' : '0 ₫'}"></strong>
+                                </div>
+                                <div class="slip-price-row border-top pt-2 mt-2">
+                                    <span>Đơn giá/khách:</span>
+                                    <strong class="text-danger fw-bold"
+                                        th:text="${#numbers.formatDecimal(tongGia, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></strong>
+                                </div>
+
+                                <hr class="text-muted opacity-25 my-4" style="border-style: dashed !important; border-top-width: 2px !important;">
+
+                                <div class="slip-price-total">
+                                    <span>TỔNG CỘNG:</span>
+                                    <h3 id="totalPrice" 
+                                        th:text="${#numbers.formatDecimal(tongGia, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
+                                        th:data-unit-price="${tongGia}">0 ₫</h3>
+                                </div>
+
+                                <button type="submit" form="bookingForm" class="btn btn-confirm-booking text-uppercase mb-3">
+                                    <i class="bi bi-check-circle me-2"></i> Xác nhận đặt tour
+                                </button>
+
+                                <div class="text-center">
+                                    <a th:href="@{/tour/{id}(id=${tour.id}, selectedDate=${nkh.ngay}, month=${nkh.thang}, year=${nkh.nam})}"
+                                        class="text-decoration-none small text-secondary fw-semibold">
+                                        <i class="bi bi-arrow-left me-1"></i> Quay lại chi tiết tour
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,12 +535,12 @@
         </div>
 
         <script>
-            // Cập nhật tổng giá khi thay đổi số lượng khách
-            document.getElementById('soLuongInput').addEventListener('change', function () {
+            document.getElementById('soLuongInput').addEventListener('input', function () {
                 var unitPrice = parseFloat(document.getElementById('totalPrice').getAttribute('data-unit-price'));
                 var soLuong = parseInt(this.value) || 1;
                 var total = unitPrice * soLuong;
                 document.getElementById('totalPrice').textContent = total.toLocaleString('vi-VN') + ' ₫';
+                document.getElementById('slipSoLuongText').textContent = soLuong + ' khách';
             });
         </script>
     </th:block>

@@ -60,6 +60,9 @@ public class TourService {
         if (chuyenDi.getIdDiemDen() != null && chuyenDi.getIdDiemDen().getId() != null) {
             chuyenDi.setIdDiemDen(diemDenRepository.findById(chuyenDi.getIdDiemDen().getId()).orElse(null));
         }
+        if (chuyenDi.getIdNoiLuuTru() != null && chuyenDi.getIdNoiLuuTru().getId() != null) {
+            chuyenDi.setIdNoiLuuTru(noiLuuTruRepository.findById(chuyenDi.getIdNoiLuuTru().getId()).orElse(null));
+        }
         if (chuyenDi.getIdDiemDon() != null && chuyenDi.getIdDiemDon().getId() != null) {
             chuyenDi.setIdDiemDon(diemDonRepository.findById(chuyenDi.getIdDiemDon().getId()).orElse(null));
         }
@@ -111,7 +114,6 @@ public class TourService {
             selectedDate = LocalDate.parse(selectedDateStr);
         }
 
-        // Tạo set ngày khởi hành để tra cứu nhanh
         Map<LocalDate, NgayKhoiHanh> departureMap = new HashMap<>();
         for (NgayKhoiHanh nkh : departureDates) {
             departureMap.put(nkh.getNgay(), nkh);
@@ -124,7 +126,6 @@ public class TourService {
             day.setCurrentMonth(current.getMonthValue() == month);
             day.setPast(current.isBefore(today));
 
-            // Kiểm tra ngày khởi hành
             NgayKhoiHanh nkh = departureMap.get(current);
             if (nkh != null) {
                 day.setHasDeparture(true);
@@ -134,7 +135,6 @@ public class TourService {
                 }
             }
 
-            // Kiểm tra ngày được chọn
             if (selectedDate != null && current.equals(selectedDate)) {
                 day.setSelected(true);
             } else {

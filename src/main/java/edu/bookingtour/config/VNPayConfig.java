@@ -66,7 +66,6 @@ public class VNPayConfig {
         return digest;
     }
 
-    // Standard hash function for VNPAY 2.1.0
     public String hashAllFields(Map<String, String> fields) throws UnsupportedEncodingException {
         List<String> fieldNames = new ArrayList<>(fields.keySet());
         Collections.sort(fieldNames);
@@ -82,7 +81,6 @@ public class VNPayConfig {
                 }
                 hashData.append(fieldName);
                 hashData.append('=');
-                // VNPay standard: use URLEncoder with US-ASCII or UTF-8
                 hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
                 first = false;
             }

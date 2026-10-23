@@ -24,7 +24,7 @@
               <div class="card-body text-center">
                 <h6 class="fw-bold mb-2" th:text="${t.tieuDe}"></h6>
                 <p class="text-danger fw-bold mb-0"
-                  th:text="${#numbers.formatDecimal(t.gia, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+                  th:text="${#numbers.formatDecimal(t.tongGia, 0, 'COMMA', 0, 'POINT')} + ' VND'">
                 </p>
               </div>
             </div>

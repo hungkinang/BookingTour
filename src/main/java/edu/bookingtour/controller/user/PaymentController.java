@@ -66,7 +66,6 @@ public class PaymentController {
             return "redirect:/tour";
         }
 
-        // Create booking entry
         DatCho datCho = new DatCho();
         if (principal != null) {
             NguoiDung user = nguoiDungService.findByTenDangNhap(principal.getName()).orElse(null);
@@ -82,14 +81,13 @@ public class PaymentController {
         datCho.setSoDienThoai(soDienThoai);
         datCho.setDiaChi(diaChi);
         datCho.setGhiChu(ghiChu);
+        datCho.setIdNgayKhoiHanh(nkh);
 
-        // Calculate total amount including transport fees
-        double totalAmount = (tour.getGia().doubleValue() + nkh.getTongGiaVe()) * soLuong;
+        double totalAmount = (tour.getTongGia().doubleValue() + nkh.getTongGiaVe()) * soLuong;
         datCho.setTongGia(totalAmount);
 
         datCho = datChoService.save(datCho);
 
-        // Prepare VNPay parameters
         long amount = (long) (totalAmount * 100);
         String vnp_TxnRef = String.valueOf(datCho.getId());
         String vnp_IpAddr = vnPayConfig.getIpAddress(request);
@@ -113,11 +111,10 @@ public class PaymentController {
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
 
-        cld.add(Calendar.MINUTE, 15);
+        cld.add(Calendar.MINUTE, 1);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
-        // Build query string and hash data
         List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
 
@@ -161,7 +158,6 @@ public class PaymentController {
             fields.remove("vnp_SecureHash");
         }
 
-        // Check hash
         try {
             String signValue = vnPayConfig.hashAllFields(fields);
             if (signValue.equals(vnp_SecureHash)) {
@@ -169,14 +165,11 @@ public class PaymentController {
                 String responseCode = request.getParameter("vnp_ResponseCode");
 
                 if ("00".equals(responseCode)) {
-                    // Payment success
                     datChoService.updateStatus(Integer.parseInt(orderId), "PAID");
                 } else {
-                    // Payment failed
                     datChoService.updateStatus(Integer.parseInt(orderId), "FAILED");
                 }
 
-                // Redirect to a dedicated result page with all info from VNPay
                 String resultUrl = "/payment/vnpay-result?" + request.getQueryString();
                 return "redirect:" + resultUrl;
             } else {
@@ -209,7 +202,6 @@ public class PaymentController {
             return "redirect:/user/bookings";
         }
 
-        // Check 15 mins expiration
         if (datCho.getCreatedAt() != null && datCho.getCreatedAt().plusMinutes(15).isBefore(LocalDateTime.now())) {
             redirectAttributes.addFlashAttribute("error", "Đơn hàng đã hết hạn thanh toán (15 phút)!");
             return "redirect:/user/bookings";

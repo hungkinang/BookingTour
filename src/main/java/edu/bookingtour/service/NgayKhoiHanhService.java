@@ -26,27 +26,21 @@ public class NgayKhoiHanhService {
     @Autowired
     private AmadeusClient amadeusClient;
 
-    /**
-     * Lấy danh sách ngày khởi hành của tour theo tháng/năm (do admin set)
-     */
+    
     public List<NgayKhoiHanh> getDepartureDates(Integer chuyenDiId, int month, int year) {
         return ngayKhoiHanhRepository.findByChuyenDiIdAndThangAndNam(chuyenDiId, month, year);
     }
 
-    /**
-     * Admin thêm ngày khởi hành mới cho tour, tự fetch flight info từ Amadeus
-     */
+    
     @Transactional
     public NgayKhoiHanh addDepartureDate(Integer chuyenDiId, LocalDate ngayDi, LocalDate ngayVe) {
         ChuyenDi chuyenDi = chuyenDiRepository.findById(chuyenDiId)
                 .orElseThrow(() -> new RuntimeException("Tour không tồn tại"));
 
-        // Kiểm tra xem ngày khởi hành đã tồn tại chưa
         Optional<NgayKhoiHanh> existing = ngayKhoiHanhRepository.findByChuyenDiIdAndNgay(chuyenDiId, ngayDi);
         if (existing.isPresent()) {
             return existing.get(); // Trả về bản ghi cũ nếu đã tồn tại để tránh lỗi duplicate
         }
-
 
         NgayKhoiHanh nkh = new NgayKhoiHanh();
         nkh.setChuyenDi(chuyenDi);
@@ -55,7 +49,6 @@ public class NgayKhoiHanhService {
         nkh.setNam(ngayDi.getYear());
         nkh.setNgayVe(ngayVe);
 
-        // Kiểm tra phương tiện
         boolean isBus = chuyenDi.getIdPhuongTien() != null
                 && "Bus".equalsIgnoreCase(chuyenDi.getIdPhuongTien().getLoai());
 
@@ -71,9 +64,7 @@ public class NgayKhoiHanhService {
         } else {
             String from = "HAN";
             String to = "SGN";
-            // Fetch thông tin vé máy bay chiều đi từ Amadeus
             fetchFlightInfo(nkh, from, to, ngayDi, true);
-            // Fetch thông tin vé máy bay chiều về từ Amadeus (chỉ khi có ngày về)
             if (ngayVe != null) {
                 fetchFlightInfo(nkh, to, from, ngayVe, false);
             } else {
@@ -87,9 +78,7 @@ public class NgayKhoiHanhService {
         return ngayKhoiHanhRepository.save(nkh);
     }
 
-    /**
-     * Fetch thông tin vé máy bay từ Amadeus và gán vào NgayKhoiHanh
-     */
+    
     private void fetchFlightInfo(NgayKhoiHanh nkh, String from, String to, LocalDate date, boolean isDeparture) {
         try {
             Map<String, Object> flight = amadeusClient.getCheapestFlight(from, to, date.toString());
@@ -125,9 +114,7 @@ public class NgayKhoiHanhService {
         }
     }
 
-    /**
-     * Format ISO datetime string sang HH:mm
-     */
+    
     private String formatTime(String isoDateTime) {
         if (isoDateTime == null || isoDateTime.isEmpty())
             return "N/A";
@@ -139,9 +126,7 @@ public class NgayKhoiHanhService {
         }
     }
 
-    /**
-     * Admin cập nhật ngày đi/ngày về → re-fetch flight info
-     */
+    
     @Transactional
     public NgayKhoiHanh updateDepartureDate(Integer id, LocalDate ngayDi, LocalDate ngayVe) {
         NgayKhoiHanh nkh = ngayKhoiHanhRepository.findById(id)
@@ -149,7 +134,6 @@ public class NgayKhoiHanhService {
 
         ChuyenDi chuyenDi = nkh.getChuyenDi();
 
-        // Kiểm tra xem ngày mới có bị trùng với ngày khác của cùng 1 tour không
         Optional<NgayKhoiHanh> existing = ngayKhoiHanhRepository.findByChuyenDiIdAndNgay(chuyenDi.getId(), ngayDi);
         if (existing.isPresent() && !existing.get().getId().equals(id)) {
             throw new RuntimeException("Ngày khởi hành " + ngayDi + " đã tồn tại cho tour này");
@@ -170,9 +154,7 @@ public class NgayKhoiHanhService {
         } else {
             String from = "HAN";
             String to = "SGN";
-            // Re-fetch flight info chiều đi
             fetchFlightInfo(nkh, from, to, ngayDi, true);
-            // Re-fetch flight info chiều về (chỉ khi có ngày về)
             if (ngayVe != null) {
                 fetchFlightInfo(nkh, to, from, ngayVe, false);
             } else {
@@ -186,31 +168,23 @@ public class NgayKhoiHanhService {
         return ngayKhoiHanhRepository.save(nkh);
     }
 
-    /**
-     * Admin xoá ngày khởi hành
-     */
+    
     @Transactional
     public void deleteDepartureDate(Integer id) {
         ngayKhoiHanhRepository.deleteById(id);
     }
 
-    /**
-     * Lấy tất cả ngày khởi hành của 1 tour
-     */
+    
     public List<NgayKhoiHanh> findByChuyenDiId(Integer chuyenDiId) {
         return ngayKhoiHanhRepository.findByChuyenDiId(chuyenDiId);
     }
 
-    /**
-     * Tìm theo ID
-     */
+    
     public NgayKhoiHanh findById(Integer id) {
         return ngayKhoiHanhRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Tìm ngày khởi hành theo tour + ngày cụ thể
-     */
+    
     public NgayKhoiHanh findByChuyenDiAndNgay(Integer chuyenDiId, LocalDate ngay) {
         return ngayKhoiHanhRepository.findByChuyenDiIdAndNgay(chuyenDiId, ngay).orElse(null);
     }

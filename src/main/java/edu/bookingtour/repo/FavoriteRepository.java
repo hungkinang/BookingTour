@@ -13,6 +13,5 @@ public interface FavoriteRepository extends JpaRepository<YeuThich,  Integer>
     List<YeuThich> findAll();
     List<YeuThich> findByIdNguoiDung(NguoiDung nguoiDung);
 
-    // (Thêm) Kiểm tra xem một người dùng đã thích tour này chưa (để tránh lưu trùng)
     boolean existsByIdNguoiDungAndIdChuyenDi(NguoiDung user, edu.bookingtour.entity.ChuyenDi tour);
 }

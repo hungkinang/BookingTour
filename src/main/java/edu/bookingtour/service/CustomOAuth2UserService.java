@@ -37,13 +37,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String name = (String) attributes.get("name");
         String provider = registrationId.toUpperCase();
 
-        // Identifiers: Google uses "sub", Facebook uses "id"
         String providerId = (String) attributes.get("google".equals(registrationId) ? "sub" : "id");
 
-        // Determine unique username for lookup
         String tenDangNhap = (email != null) ? email : registrationId + "_" + providerId;
 
-        // Save or update user in database
         nguoiDungService.findByTenDangNhap(tenDangNhap).orElseGet(() -> {
             NguoiDung nd = new NguoiDung();
             nd.setTenDangNhap(tenDangNhap);
@@ -54,8 +51,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return nguoiDungService.save(nd);
         });
 
-        // Add the unique username to attributes so we can use it as the name attribute
-        // key
         attributes.put("userNameKey", tenDangNhap);
 
         return new DefaultOAuth2User(

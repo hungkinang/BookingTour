@@ -17,7 +17,7 @@
 
             <div class="row">
 
-                <!-- SIDEBAR -->
+                
                 <div class="col-lg-3 mb-4">
                     <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-body p-4">
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                            <!-- Hạng thành viên -->
+                            
                             <div class="text-center mb-3">
                                 <span class="tier-badge" th:classappend="${memberTierColor}"
                                     th:text="${memberTierIcon + ' ' + memberTier}"></span>
@@ -69,15 +69,14 @@
                     </div>
                 </div>
 
-
-                <!-- MAIN CONTENT -->
+                
                 <div class="col-lg-9">
                     <div class="d-flex align-items-center mb-4">
                         <i class="bi bi-luggage-fill text-booking-primary fs-3 me-2"></i>
                         <h3 class="fw-bold mb-0">Lịch sử đặt chỗ của tôi</h3>
                     </div>
 
-                    <!-- Tabs -->
+                    
                     <ul class="nav nav-pills mb-4 bg-white p-2 rounded-3 shadow-sm small fw-bold" id="bookingTabs"
                         role="tablist">
                         <li class="nav-item" role="presentation">
@@ -99,27 +98,27 @@
                     </ul>
 
                     <div class="tab-content" id="bookingTabsContent">
-                        <!-- Tab: All -->
+                        
                         <div class="tab-pane fade show active" id="all" role="tabpanel">
                             <div th:replace="~{::bookingList(${bookings}, 'all')}"></div>
                         </div>
-                        <!-- Tab: Pending -->
+                        
                         <div class="tab-pane fade" id="pending" role="tabpanel">
                             <div th:replace="~{::bookingList(${pendingBookings}, 'pending')}"></div>
                         </div>
-                        <!-- Tab: Paid (Confirmed) -->
+                        
                         <div class="tab-pane fade" id="paid" role="tabpanel">
                             <div th:replace="~{::bookingList(${paidBookings}, 'paid')}"></div>
                         </div>
-                        <!-- Tab: Failed/Expired -->
+                        
                         <div class="tab-pane fade" id="failed" role="tabpanel">
                             <div th:replace="~{::bookingList(${failedBookings}, 'failed')}"></div>
                         </div>
                     </div>
 
-                    <!-- Fragments for reusable list -->
+                    
                     <div th:fragment="bookingList(list, tabId)" th:if="${list != null}">
-                        <!-- Empty State -->
+                        
                         <div th:if="${#lists.isEmpty(list)}"
                             class="text-center py-5 bg-white rounded-4 shadow-sm border empty-state-box">
                             <div class="empty-state-icon mb-3">
@@ -131,7 +130,7 @@
                                 trạng thái này.</p>
                         </div>
 
-                        <!-- Booking Cards -->
+                        
                         <div th:if="${not #lists.isEmpty(list)}">
                             <div class="booking-list-container" th:attr="data-tab=${tabId}">
                                 <div class="col-12 booking-item" th:each="booking : ${list}">
@@ -187,14 +186,14 @@
                                                             </h5>
                                                         </div>
                                                         <div class="d-flex gap-2 flex-wrap">
-                                                            <!-- Pay Now Button -->
+                                                            
                                                             <a th:if="${booking.trangThai == 'PENDING' && (booking.createdAt == null || !booking.createdAt.plusMinutes(15).isBefore(currentTime))}"
                                                                 th:href="@{/booking/repay/{id}(id=${booking.id})}"
                                                                 class="btn btn-primary rounded-pill btn-sm px-4">
                                                                 Thanh toán ngay
                                                             </a>
 
-                                                            <!-- Review Button -->
+                                                            
                                                             <button
                                                                 th:if="${booking.trangThai == 'PAID' && booking.idChuyenDi.ngayKetThuc != null && !booking.idChuyenDi.ngayKetThuc.isAfter(#temporals.createToday())}"
                                                                 type="button"
@@ -206,7 +205,7 @@
                                                                 <i class="bi bi-star me-1"></i>Đánh giá
                                                             </button>
 
-                                                            <!-- Invoice Button -->
+                                                            
                                                             <button th:if="${booking.trangThai == 'PAID'}"
                                                                 class="btn btn-light border rounded-pill btn-sm px-3"
                                                                 th:data-id="${booking.id}" th:data-user="${user.hoTen}"
@@ -218,7 +217,7 @@
                                                                 <i class="bi bi-file-earmark-text me-1"></i>Hoá đơn
                                                             </button>
 
-                                                            <!-- Itinerary Button -->
+                                                            
                                                             <button th:if="${booking.trangThai == 'PAID'}"
                                                                 class="btn btn-outline-info rounded-pill btn-sm px-3"
                                                                 th:data-tour-id="${booking.idChuyenDi.id}"
@@ -238,19 +237,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Pagination placeholder (filled by JS) -->
+                            
                             <div class="booking-pagination" th:attr="data-tab=${tabId}"></div>
                         </div>
                     </div>
 
-                    <!-- Modals -->
+                    
 
-                    <!-- Review Modal -->
+                    
                     <div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered review-modal-dialog">
                             <div class="modal-content border-0 rounded-4 shadow-lg review-modal-content">
 
-                                <!-- Gradient Header -->
+                                
                                 <div class="review-modal-header">
                                     <div class="review-header-deco"></div>
                                     <div class="d-flex align-items-center gap-3 position-relative">
@@ -272,13 +271,13 @@
                                     <div class="modal-body p-4">
                                         <input type="hidden" name="tourId" id="reviewTourId">
 
-                                        <!-- Tour name chip -->
+                                        
                                         <div class="review-tour-chip mb-4">
                                             <i class="bi bi-geo-alt-fill me-2"></i>
                                             <span id="reviewTourTitle">...</span>
                                         </div>
 
-                                        <!-- Star Rating -->
+                                        
                                         <div class="mb-4 text-center">
                                             <p class="small fw-semibold text-muted mb-3">Mức độ hài lòng của bạn</p>
                                             <div class="star-rating-wrap">
@@ -309,7 +308,7 @@
                                                         <i class="bi bi-star-fill star-icon"></i>
                                                     </label>
                                                 </div>
-                                                <!-- Rating Label -->
+                                                
                                                 <div class="star-rating-label" id="starRatingLabel">
                                                     <span class="star-emoji" id="starEmoji">🤩</span>
                                                     <span class="star-text" id="starText">Tuyệt vời!</span>
@@ -318,7 +317,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- Comment -->
+                                        
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold">Bình luận của bạn</label>
                                             <textarea name="binhLuan" id="reviewComment"
@@ -340,7 +339,7 @@
                         </div>
                     </div>
 
-                    <!-- Modal Chi tiết Hoá đơn -->
+                    
                     <div class="modal fade" id="invoiceModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0 rounded-4 shadow">
@@ -389,14 +388,14 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer border-0">
-                                    <button type="button" class="btn btn-dark rounded-pill w-100 py-2"
+                                    <button type="button" class="btn btn-outline-dark rounded-pill w-100 py-2"
                                         data-bs-dismiss="modal">Đóng</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Modal Lịch trình chi tiết -->
+                    
                     <div class="modal fade" id="itineraryModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content border-0 rounded-4 shadow">
@@ -444,7 +443,7 @@
 
                                         <h6 class="fw-bold mb-3">Hành trình chi tiết</h6>
                                         <div id="itineraryTimeline" class="itinerary-timeline ms-2">
-                                            <!-- Timeline items will be injected here -->
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -1050,7 +1049,6 @@
                                 });
                             });
 
-                            // Init with default value
                             const defaultChecked = document.querySelector('input[name="diem"]:checked');
                             const defaultVal = defaultChecked ? parseInt(defaultChecked.value) : 5;
                             selectStar(defaultVal);
@@ -1070,7 +1068,6 @@
                                 const items = Array.from(container.querySelectorAll('.booking-item'));
                                 const total = items.length;
                                 if (total <= PAGE_SIZE) {
-                                    // No need for pagination
                                     items.forEach(i => i.style.display = '');
                                     return;
                                 }
@@ -1091,14 +1088,12 @@
                                         }
                                     });
                                     renderPagination();
-                                    // Scroll to top of list smoothly
                                     container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                                 }
 
                                 function renderPagination() {
                                     paginationEl.innerHTML = '';
 
-                                    // Prev button
                                     const prev = document.createElement('button');
                                     prev.className = 'pg-btn' + (currentPage === 1 ? ' disabled' : '');
                                     prev.innerHTML = '<i class="bi bi-chevron-left"></i>';
@@ -1106,7 +1101,6 @@
                                     if (currentPage > 1) prev.onclick = () => showPage(currentPage - 1);
                                     paginationEl.appendChild(prev);
 
-                                    // Page number buttons
                                     const range = getPageRange(currentPage, totalPages);
                                     range.forEach(p => {
                                         if (p === '...') {
@@ -1123,7 +1117,6 @@
                                         }
                                     });
 
-                                    // Next button
                                     const next = document.createElement('button');
                                     next.className = 'pg-btn' + (currentPage === totalPages ? ' disabled' : '');
                                     next.innerHTML = '<i class="bi bi-chevron-right"></i>';
@@ -1149,7 +1142,6 @@
                             document.addEventListener('DOMContentLoaded', function () {
                                 ['all', 'pending', 'paid', 'failed'].forEach(initPagination);
 
-                                // Re-init when switching tabs (items are shown/hidden by Bootstrap)
                                 document.querySelectorAll('[data-bs-toggle="tab"]').forEach(btn => {
                                     btn.addEventListener('shown.bs.tab', function (e) {
                                         const targetId = e.target.getAttribute('data-bs-target').replace('#', '');
@@ -1170,11 +1162,9 @@
                             if (tourIdInput) tourIdInput.value = data.tourId || '';
                             if (tourTitleEl) tourTitleEl.textContent = data.tourTitle || '...';
 
-                            // Reset fields
                             const textarea = modalEl.querySelector('textarea');
                             if (textarea) textarea.value = '';
 
-                            // Reset to 5 stars
                             const s5 = document.getElementById('s5');
                             if (s5) { s5.checked = true; initStarRating(); }
 
@@ -1189,7 +1179,6 @@
                             const content = document.getElementById('itineraryContent');
                             const timeline = document.getElementById('itineraryTimeline');
 
-                            // Show modal and loading state
                             content.style.display = 'none';
                             loading.style.display = 'block';
                             modal.show();
@@ -1200,7 +1189,6 @@
 
                                 const data = await response.json();
 
-                                // Update header info
                                 if (data.ngayKhoiHanh) {
                                     const date = new Date(data.ngayKhoiHanh);
                                     document.getElementById('modalNgayKhoiHanh').textContent = date.toLocaleDateString('vi-VN');
@@ -1211,7 +1199,6 @@
                                 document.getElementById('modalDiemDon').textContent = data.diemDon || 'Chưa cập nhật';
                                 document.getElementById('modalNotes').innerHTML = data.notes || 'Không có lưu ý đặc biệt cho tour này.';
 
-                                // Build timeline
                                 timeline.innerHTML = '';
                                 if (data.itinerary && data.itinerary.length > 0) {
                                     data.itinerary.sort((a, b) => a.ngayThu - b.ngayThu).forEach(item => {

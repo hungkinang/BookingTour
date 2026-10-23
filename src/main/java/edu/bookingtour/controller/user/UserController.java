@@ -40,9 +40,6 @@ public class UserController {
     @Value("${avatar.path}")
     private String avatarPath;
 
-    // -----------------------------------------------
-    // Tính hạng thành viên theo tổng chi tiêu (PAID)
-    // -----------------------------------------------
     private String getMemberTier(double totalSpending) {
         if (totalSpending >= 100_000_000)
             return "Kim Cương";
@@ -99,7 +96,6 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
     }
 
-    // -----------------------------------------------
     @GetMapping("/profile")
     public String profile(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -129,7 +125,6 @@ public class UserController {
         double totalSpending = (total != null) ? total : 0.0;
         LocalDateTime currentTime = LocalDateTime.now();
 
-        // Pre-filter bookings for tabs
         List<DatCho> pendingBookings = bookings.stream()
                 .filter(b -> "PENDING".equals(b.getTrangThai())
                         && (b.getCreatedAt() == null || !b.getCreatedAt().plusMinutes(15).isBefore(currentTime)))
@@ -186,7 +181,6 @@ public class UserController {
         }
         NguoiDung currentUser = resolveUser(authentication);
 
-        // Cập nhật thông tin được phép sửa
         currentUser.setHoTen(updatedUser.getHoTen());
         currentUser.setNumber(updatedUser.getNumber());
 
@@ -252,18 +246,15 @@ public class UserController {
         try {
             NguoiDung user = resolveUser(authentication);
 
-            // Tạo thư mục nếu chưa tồn tại
             File directory = new File(avatarPath);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
-            // Lưu file
             String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
             File dest = new File(directory.getAbsolutePath() + File.separator + fileName);
             file.transferTo(dest);
 
-            // Cập nhật đường dẫn trong DB
             String dbPath = "/anh/user/" + fileName;
             nguoiDungService.updateAvatar(user.getId(), dbPath);
 

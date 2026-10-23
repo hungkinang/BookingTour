@@ -53,16 +53,13 @@ public class ChuyenDiController {
             Principal principal,
             @RequestParam(required = false) String selectedDate) throws Exception {
 
-        // Tính 3 tháng bắt đầu từ tháng hiện tại
         LocalDate now = LocalDate.now();
         int startMonth = now.getMonthValue();
         int startYear = now.getYear();
 
-        // Default: tháng hiện tại
         int viewMonth = (month != null) ? month : startMonth;
         int viewYear = (year != null) ? year : startYear;
 
-        // Giới hạn chỉ cho phép 3 tháng từ tháng hiện tại
         int[] months = new int[3];
         int[] years = new int[3];
         for (int i = 0; i < 3; i++) {
@@ -81,13 +78,10 @@ public class ChuyenDiController {
             return "redirect:/tour";
         }
 
-        // Lấy ngày khởi hành do admin đã set cho tháng hiện tại
         List<NgayKhoiHanh> departureDates = ngayKhoiHanhService.getDepartureDates(id, viewMonth, viewYear);
 
-        // Tạo calendar với thông tin ngày khởi hành
         List<Calendar> calendar = tourService.getCalendar(viewMonth, viewYear, selectedDate, departureDates);
 
-        // Tìm ngày khởi hành được chọn
         NgayKhoiHanh selectedNkh = null;
         double flightPrice = 0;
         if (selectedDate != null && !selectedDate.isEmpty()) {
@@ -108,11 +102,9 @@ public class ChuyenDiController {
             model.addAttribute("selectedNkh", selectedNkh);
             model.addAttribute("price", flightPrice);
 
-            // 3 tháng cho sidebar
             model.addAttribute("months", months);
             model.addAttribute("years", years);
 
-            // Đánh giá
             List<DanhGia> danhGiaList = danhGiaService.findByTourId(id);
             double avg = danhGiaList.stream().mapToInt(DanhGia::getDiem).average().orElse(0);
             DanhGia userReview = null;
@@ -134,14 +126,15 @@ public class ChuyenDiController {
         return "chuyendi/chitiet";
     }
 
-    /**
-     * Trang đặt tour (booking form)
-     */
+    
     @GetMapping("/tour/{tourId}/dat-tour")
     public String bookingForm(@PathVariable Integer tourId,
             @RequestParam Integer nkhId,
             Principal principal,
             Model model) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         ChuyenDi chuyenDi = tourService.findByIdd(tourId);
         if (chuyenDi == null)
             return "redirect:/tour";
@@ -150,14 +143,13 @@ public class ChuyenDiController {
         if (nkh == null)
             return "redirect:/tour/" + tourId;
 
-        double tongGia = chuyenDi.getGia().doubleValue() + nkh.getTongGiaVe();
+        double tongGia = chuyenDi.getTongGia().doubleValue() + nkh.getTongGiaVe();
 
         model.addAttribute("tour", chuyenDi);
         model.addAttribute("nkh", nkh);
         model.addAttribute("tongGia", tongGia);
         model.addAttribute("principal", principal);
 
-        // Tự điền thông tin user nếu đã đăng nhập
         if (principal != null) {
             nguoiDungService.findByTenDangNhap(principal.getName()).ifPresent(user -> {
                 model.addAttribute("userHoTen", user.getHoTen());

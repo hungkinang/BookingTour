@@ -57,6 +57,10 @@ public class DatCho {
     @JoinColumn(name = "id_ma_giam_gia")
     private MaGiamGia idMaGiamGia;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_ngay_khoi_hanh")
+    private NgayKhoiHanh idNgayKhoiHanh;
+
     @Column(name = "tong_gia")
     private Double tongGia;
 

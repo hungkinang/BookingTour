@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,7 +31,6 @@ public class NgayKhoiHanh {
     @Column(name = "nam")
     private Integer nam;
 
-    // === Vé máy bay chiều đi ===
     @Column(name = "gia_ve_di")
     private Double giaVeDi;
 
@@ -43,7 +43,6 @@ public class NgayKhoiHanh {
     @Column(name = "gio_den_di")
     private String gioDenDi;
 
-    // === Vé máy bay chiều về ===
     @Column(name = "ngay_ve")
     private LocalDate ngayVe;
 
@@ -59,7 +58,9 @@ public class NgayKhoiHanh {
     @Column(name = "gio_den_ve")
     private String gioDenVe;
 
-    // Tổng giá vé (đi + về)
+    @OneToMany(mappedBy = "idNgayKhoiHanh", cascade = CascadeType.ALL)
+    private List<DatCho> danhSachDatCho;
+
     public double getTongGiaVe() {
         return (giaVeDi != null ? giaVeDi : 0) + (giaVeVe != null ? giaVeVe : 0);
     }

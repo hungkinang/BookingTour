@@ -37,7 +37,6 @@ public class AdminDashboardController {
 
     @GetMapping
     public String index(Model model) {
-        // KPI Cards
         model.addAttribute("totalBookings", dashboardRepository.countTotalBookings());
         model.addAttribute("successBookings", dashboardRepository.countSuccessfulBookings());
         model.addAttribute("failedBookings", dashboardRepository.countFailedBookings());
@@ -46,11 +45,9 @@ public class AdminDashboardController {
         model.addAttribute("totalUsers", nguoiDungRepository.count());
         model.addAttribute("totalTours", chuyenDiRepository.count());
 
-        // Top Selling Tours
         List<Object[]> topTours = dashboardRepository.findTopSellingTours();
         model.addAttribute("topTours", topTours);
 
-        // Chart Data: Monthly Revenue (Current Year)
         int currentYear = LocalDate.now().getYear();
         List<Object[]> monthlyData = dashboardRepository.findMonthlyRevenueByYear(currentYear);
         Map<Integer, Double> revenueMap = new HashMap<>();
@@ -68,7 +65,6 @@ public class AdminDashboardController {
         model.addAttribute("chartMonths", months);
         model.addAttribute("chartRevenues", revenues);
 
-        // Chart Data: Booking Status
         List<Object[]> statusData = dashboardRepository.findBookingStatusDistribution();
         List<String> statusLabels = new ArrayList<>();
         List<Long> statusCounts = new ArrayList<>();
@@ -79,21 +75,18 @@ public class AdminDashboardController {
         model.addAttribute("statusLabels", statusLabels);
         model.addAttribute("statusCounts", statusCounts);
 
-        // User Spending Stats
         List<Object[]> userSpendingData = dashboardRepository.findUserSpendingStats();
         model.addAttribute("userSpendingStats", userSpendingData);
 
         return "admin/dashboard";
     }
 
-    // REST endpoint: lấy danh sách khách hàng đã mua theo tourId
     @GetMapping("/tour-bookings/{tourId}")
     @ResponseBody
     public List<Object[]> getTourBookings(@PathVariable Integer tourId) {
         return dashboardRepository.findBookingDetailsByTourId(tourId);
     }
 
-    // REST endpoint: lấy dữ liệu doanh thu theo tháng của một năm cụ thể
     @GetMapping("/api/revenue/monthly")
     @ResponseBody
     public Map<String, Object> getMonthlyRevenueApi(@RequestParam int year) {
@@ -134,7 +127,6 @@ public class AdminDashboardController {
         model.addAttribute("monthlyRevenue", monthlyRaw);
         model.addAttribute("yearlyRevenue", yearlyRaw);
 
-        // Ensure 12 months for Monthly Chart
         Map<Integer, Double> monthlyMap = new HashMap<>();
         IntStream.rangeClosed(1, 12).forEach(i -> monthlyMap.put(i, 0.0));
         for (Object[] row : monthlyRaw) {
@@ -148,7 +140,6 @@ public class AdminDashboardController {
             monthlyData.add(monthlyMap.get(i));
         }
 
-        // Map for JS Charts
         model.addAttribute("weeklyLabels", weeklyRaw.stream().map(r -> "Tuần " + r[0]).toList());
         model.addAttribute("weeklyData", weeklyRaw.stream().map(r -> r[1]).toList());
         model.addAttribute("monthlyLabels", monthlyLabels);

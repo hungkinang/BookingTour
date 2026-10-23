@@ -10,9 +10,18 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +32,31 @@ public class SecurityConfig {
 
         public SecurityConfig(CustomUserDetailsService userDetailsService) {
                 this.userDetailsService = userDetailsService;
+        }
+
+        @Bean
+        public SessionRegistry sessionRegistry() {
+                return new SessionRegistryImpl();
+        }
+
+        @Bean
+        public HttpSessionRequestCache httpSessionRequestCache() {
+                RequestMatcher staticResources = new OrRequestMatcher(
+                                new AntPathRequestMatcher("/uploads/**"),
+                                new AntPathRequestMatcher("/css/**"),
+                                new AntPathRequestMatcher("/js/**"),
+                                new AntPathRequestMatcher("/anh/**"),
+                                new AntPathRequestMatcher("/img/**"),
+                                new AntPathRequestMatcher("/images/**"),
+                                new AntPathRequestMatcher("/favicon.ico"),
+                                new AntPathRequestMatcher("/favicon.icon"),
+                                new AntPathRequestMatcher("/error"));
+
+                HttpSessionRequestCache cache = new HttpSessionRequestCache();
+                cache.setRequestMatcher(new AndRequestMatcher(
+                                new NegatedRequestMatcher(staticResources),
+                                new AntPathRequestMatcher("/**")));
+                return cache;
         }
 
         @Bean
@@ -44,21 +78,27 @@ public class SecurityConfig {
         }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService)
+        public SecurityFilterChain filterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService,
+                        SessionRegistry sessionRegistry, InvalidSessionStrategy invalidSessionStrategy,
+                        HttpSessionRequestCache httpSessionRequestCache)
                         throws Exception {
                 http
                                 .authenticationProvider(authenticationProvider())
+                                .requestCache(cache -> cache.requestCache(httpSessionRequestCache))
 
                                 .authorizeHttpRequests(authorize -> authorize
-                                                // Public endpoints
+                                                .requestMatchers("/tour/*/dat-tour").authenticated()
+
                                                 .requestMatchers(
                                                                 "/login",
                                                                 "/register",
+                                                                "/error",
                                                                 "/css/**",
                                                                 "/js/**",
                                                                 "/anh/**",
                                                                 "/img/**",
                                                                 "/images/**",
+                                                                "/uploads/**",
                                                                 "/",
                                                                 "/tour/**",
                                                                 "/api/public/**",
@@ -69,13 +109,10 @@ public class SecurityConfig {
                                                                 "/favicon.icon")
                                                 .permitAll()
 
-                                                // Admin only endpoints
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                                                // User and Admin endpoints
                                                 .requestMatchers("/user/**", "/booking/**").authenticated()
 
-                                                // All other requests must be authenticated
                                                 .anyRequest().authenticated())
 
                                 .formLogin(form -> form
@@ -83,22 +120,16 @@ public class SecurityConfig {
                                                 .loginProcessingUrl("/perform-login")
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
-                                                .defaultSuccessUrl("/redirect-after-login", true)
+                                                .defaultSuccessUrl("/redirect-after-login", false)
                                                 .failureUrl("/login?error=true")
-                                                .permitAll()
-                                // .defaultSuccessUrl("/")
-                                )
-                                // .rememberMe(remember -> remember
-                                // .key("zaki-booking-remember-me")
-                                // .rememberMeParameter("remember-me")
-                                // .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 ngày
-                                // .userDetailsService(userDetailsService)
-                                // )
+                                                .permitAll())
+
                                 .logout(logout -> logout
                                                 .logoutUrl("/logout")
                                                 .logoutSuccessUrl("/login?logout=true")
                                                 .invalidateHttpSession(true)
-                                                .deleteCookies("JSESSIONID")
+                                                .clearAuthentication(true)
+                                                .deleteCookies("JSESSIONID", "remember-me")
                                                 .permitAll())
 
                                 .exceptionHandling(exception -> exception
@@ -106,8 +137,11 @@ public class SecurityConfig {
 
                                 .sessionManagement(session -> session
                                                 .sessionFixation().changeSessionId()
+                                                .invalidSessionStrategy(invalidSessionStrategy)
                                                 .maximumSessions(1)
-                                                .maxSessionsPreventsLogin(false))
+                                                .maxSessionsPreventsLogin(false)
+                                                .sessionRegistry(sessionRegistry))
+
                                 .oauth2Login(oauth -> oauth
                                                 .loginPage("/login")
                                                 .userInfoEndpoint(userInfo -> userInfo
@@ -117,7 +151,7 @@ public class SecurityConfig {
                                                                         exception.getMessage());
                                                         response.sendRedirect("/login?error=true");
                                                 })
-                                                .defaultSuccessUrl("/", true));
+                                                .defaultSuccessUrl("/redirect-after-login", false));
 
                 return http.build();
         }

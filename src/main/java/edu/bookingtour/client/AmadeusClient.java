@@ -33,9 +33,7 @@ public class AmadeusClient {
     private String accessToken;
     private Instant tokenExpiry;
 
-    /**
-     * Lấy access token từ Amadeus OAuth2
-     */
+    
     private synchronized String getAccessToken() throws Exception {
         if (accessToken != null && tokenExpiry != null && Instant.now().isBefore(tokenExpiry)) {
             return accessToken;
@@ -65,10 +63,7 @@ public class AmadeusClient {
         return accessToken;
     }
 
-    /**
-     * Tìm vé máy bay rẻ nhất cho ngày cụ thể
-     * Trả về Map chứa: price, airline, flightNumber, departureTime, arrivalTime
-     */
+    
     public Map<String, Object> getCheapestFlight(String origin, String destination, String departureDate) {
         Map<String, Object> result = new HashMap<>();
         try {
@@ -97,11 +92,9 @@ public class AmadeusClient {
             if (data != null && data.isArray() && data.size() > 0) {
                 JsonNode offer = data.get(0);
 
-                // Giá vé
                 double price = offer.get("price").get("grandTotal").asDouble();
                 result.put("price", price);
 
-                // Thông tin chuyến bay đầu tiên (segment đầu tiên)
                 JsonNode segments = offer.get("itineraries").get(0).get("segments");
                 if (segments != null && segments.size() > 0) {
                     JsonNode segment = segments.get(0);
@@ -123,9 +116,7 @@ public class AmadeusClient {
         return result;
     }
 
-    /**
-     * Lấy giá vé rẻ nhất
-     */
+    
     public double getCheapestPrice(String origin, String destination, String departureDate) {
         Map<String, Object> flight = getCheapestFlight(origin, destination, departureDate);
         if (flight.containsKey("price")) {
@@ -134,17 +125,13 @@ public class AmadeusClient {
         return 0;
     }
 
-    /**
-     * Lấy mã chuyến bay
-     */
+    
     public String getFlightNumber(String origin, String destination, String departureDate) {
         Map<String, Object> flight = getCheapestFlight(origin, destination, departureDate);
         return (String) flight.getOrDefault("flightNumber", "N/A");
     }
 
-    /**
-     * Format giá tiền sang dạng K
-     */
+    
     public String formatPriceToK(double price) {
         if (price == 0)
             return "N/A";

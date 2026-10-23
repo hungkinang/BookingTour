@@ -1,6 +1,5 @@
 package edu.bookingtour.controller.user;
 
-//import ch.qos.logback.core.model.Model;
 import edu.bookingtour.entity.NguoiDung;
 import edu.bookingtour.entity.YeuThich;
 import edu.bookingtour.repo.FavoriteRepository;
@@ -31,14 +30,11 @@ public class FavoriteController {
                               Principal principal,
                               HttpServletRequest request) {
 
-        // principal.getName() chính là username (tên đăng nhập) của người dùng hiện tại
         if (principal != null) {
             String username = principal.getName();
             favoriteService.saveFavorite(tourId, username);
         }
 
-
-        // Quay lại trang chi tiết tour vừa xem
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
@@ -47,8 +43,6 @@ public class FavoriteController {
         if (principal == null) return "redirect:/login";
         NguoiDung user = nguoiDungService.findByTenDangNhap(principal.getName()).orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         model.addAttribute("user", user);
-        // Lấy danh sách yêu thích của người dùng đó
-        // (Bạn cần viết hàm này trong YeuThichRepository)
         List<YeuThich> list = favoriteRepository.findByIdNguoiDung(user);
 
         model.addAttribute("listYeuThich", list);

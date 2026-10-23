@@ -29,8 +29,6 @@ a {
     box-shadow: inset 0 4px 15px rgb(153 153 153 / 30%);
 }
 
-/* category */
-
 .section-pagetop {
     padding: 40px 0;
 }
@@ -53,8 +51,6 @@ a {
     background-color: unset;
 }
 
-/* product */
-
 .section-pagetop-2 {
     padding: 20px 0;
 }
@@ -70,8 +66,6 @@ a {
 .rating-stars i.active {
     color: orange;
 }
-
-/* cart */
 
 .cart-table th,
 .cart-table td {
@@ -139,16 +133,16 @@ nav .nav-link i {
 
 .actor-img {
     width: 140px;
-    /* thay theo kích thước bạn muốn */
+    
     height: 140px;
-    /* nếu muốn chữ nhật khác tỉ lệ, chỉnh width/height */
+    
     border-radius: 12px;
-    /* bo góc (chữ nhật bo góc). đặt 50% để thành tròn) */
+    
     object-fit: cover;
-    /* crop vừa đủ, giữ tỉ lệ hình */
+    
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     background-color: #fff;
-    /* nếu hình bị thiếu sẽ thấy nền */
+    
 }
 
 .actor-name {
@@ -172,7 +166,7 @@ nav .nav-link i {
     position: sticky;
     top: 0;
     height: calc(100vh - 80px);
-    /* Adjust based on header height */
+    
     overflow-y: auto;
 }
 
@@ -192,14 +186,15 @@ nav .nav-link i {
     color: #0d6efd;
 }
 
-/* CỐ ĐỊNH vị trí icon */
 .admin-sidebar .nav-link i {
     width: 22px;
     text-align: center;
     font-size: 16px;
     flex-shrink: 0;
 }
-html, body {
+
+html,
+body {
     margin: 0;
     padding: 0;
     height: 100%;

@@ -17,7 +17,7 @@
                     </div>
                 </div>
 
-                <!-- KPI Cards -->
+                
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
                         <a th:href="@{/admin/revenue}" class="text-decoration-none">
@@ -27,7 +27,8 @@
                                         <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3">
                                             <i class="bi bi-currency-dollar fs-4"></i>
                                         </div>
-                                        <span class="badge bg-light text-primary border border-primary border-opacity-25 small">+12%</span>
+                                        <span
+                                            class="badge bg-light text-primary border border-primary border-opacity-25 small">+12%</span>
                                     </div>
                                     <h6 class="text-muted mb-1 small uppercase fw-bold ls-1">Doanh thu tổng</h6>
                                     <h3 class="fw-bold mb-0 text-dark"
@@ -40,7 +41,8 @@
                     </div>
                     <div class="col-md-3">
                         <a th:href="@{/admin/bookings}" class="text-decoration-none">
-                            <div class="card stat-card shadow-sm h-100 bg-white border-start border-primary border-opacity-75 border-4">
+                            <div
+                                class="card stat-card shadow-sm h-100 bg-white border-start border-primary border-opacity-75 border-4">
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between mb-3">
                                         <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3">
@@ -57,7 +59,8 @@
                     </div>
                     <div class="col-md-3">
                         <a th:href="@{/admin/tour-performance}" class="text-decoration-none">
-                            <div class="card stat-card shadow-sm h-100 bg-white border-start border-primary border-opacity-50 border-4">
+                            <div
+                                class="card stat-card shadow-sm h-100 bg-white border-start border-primary border-opacity-50 border-4">
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between mb-3">
                                         <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3">
@@ -76,7 +79,8 @@
                     </div>
                     <div class="col-md-3">
                         <a th:href="@{/admin/user}" class="text-decoration-none">
-                            <div class="card stat-card shadow-sm h-100 bg-white border-start border-primary border-opacity-25 border-4">
+                            <div
+                                class="card stat-card shadow-sm h-100 bg-white border-start border-primary border-opacity-25 border-4">
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between mb-3">
                                         <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3">
@@ -92,7 +96,7 @@
                     </div>
                 </div>
 
-                <!-- Charts Row -->
+                
                 <div class="row g-4 mb-4">
                     <div class="col-lg-8">
                         <div class="card border-0 shadow-sm rounded-4">
@@ -126,9 +130,9 @@
                     </div>
                 </div>
 
-                <!-- Tables Row -->
+                
                 <div class="row g-4">
-                    <!-- Top Tours Table -->
+                    
                     <div class="col-lg-12">
                         <div class="card border-0 shadow-sm rounded-4">
                             <div
@@ -136,8 +140,9 @@
                                 <h5 class="fw-bold mb-0"><i class="bi bi-trophy-fill text-warning me-2"></i>Top Tour bán
                                     chạy</h5>
                                 <div class="d-flex align-items-center gap-2">
-                                    <select id="tourSortSelect" class="form-select form-select-sm border-primary text-primary" style="width:auto;"
-                                        onchange="sortTopTours(this.value)">
+                                    <select id="tourSortSelect"
+                                        class="form-select form-select-sm border-primary text-primary"
+                                        style="width:auto;" onchange="sortTopTours(this.value)">
                                         <option value="bookings">Sắp xếp: Lượt đặt</option>
                                         <option value="revenue">Sắp xếp: Doanh thu</option>
                                     </select>
@@ -176,7 +181,7 @@
                                                     <button class="btn btn-sm btn-primary rounded-pill px-3"
                                                         th:data-tour-id="${row[0]}" th:data-tour-name="${row[1]}"
                                                         onclick="showTourCustomers(this)">
-                                                        <i class="bi bi-people-fill me-1"></i>Xem khách
+                                                        <i class="bi bi-people-fill me-1"></i>Xem
                                                     </button>
                                                 </td>
                                             </tr>
@@ -191,7 +196,7 @@
                         </div>
                     </div>
 
-                    <!-- User Spending Stats Table -->
+                    
                     <div class="col-lg-12">
                         <div class="card border-0 shadow-sm rounded-4">
                             <div
@@ -240,7 +245,7 @@
                                                 <td class="py-3 border-0 text-muted small" th:text="${row[1] ?: '-'}">
                                                 </td>
                                                 <td class="py-3 border-0">
-                                                    <span class="badge bg-secondary text-white px-3 py-2 rounded-pill"
+                                                    <span class="badge bg-dark text-white px-3 py-2 rounded-pill"
                                                         th:text="${row[2]} + ' lượt'"></span>
                                                 </td>
                                                 <td class="py-3 border-0 fw-bold text-danger"
@@ -272,7 +277,7 @@
                     </div>
                 </div>
 
-                <!-- Modal chi tiết khách hàng theo tour -->
+                
                 <div class="modal fade" id="tourCustomersModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content border-0 rounded-4 shadow">
@@ -321,9 +326,8 @@
 
     <div th:replace="~{layout/admin_layout :: footer()}"></div>
 
-    <!-- Chart Configuration Script -->
+    
     <script th:inline="javascript">
-        // === Sort Top Tours Table ===
         function sortTopTours(criterion) {
             const tbody = document.getElementById('topToursBody');
             const rows = Array.from(tbody.querySelectorAll('tr[data-tour-id]'));
@@ -337,7 +341,6 @@
             });
         }
 
-        // === Sort User Spending Table ===
         function sortUserSpending(criterion) {
             const tbody = document.getElementById('userSpendingBody');
             const rows = Array.from(tbody.querySelectorAll('tr[data-name]'));
@@ -353,7 +356,6 @@
             });
         }
 
-        // === Show Tour Customers Modal ===
         function showTourCustomers(btn) {
             const tourId = btn.dataset.tourId;
             const tourName = btn.dataset.tourName;
@@ -390,7 +392,7 @@
                             <td class="fw-bold">${r[6] ? `<a href="/admin/user/${r[6]}" class="text-decoration-none text-primary">${r[0]}</a>` : (r[0] || '-')}</td>
                             <td class="text-muted small">${r[1] || '-'}</td>
                             <td class="small">${r[2] || '-'}</td>
-                            <td><span class="badge bg-dark rounded-pill">${r[3]} khách</span></td>
+                            <td><span class="badge bg-dark text-white rounded-pill">${r[3]} người</span></td>
                             <td class="fw-bold text-danger">${(r[4] || 0).toLocaleString('vi-VN')} ₫</td>
                             <td class="text-muted small">${r[5] ? r[5].substring(0, 10) : '-'}</td>
                         </tr>`).join('');
@@ -410,7 +412,6 @@
 
         let revenueChart;
 
-        // === Revenue Line Chart ===
         function initRevenueChart(labels, data) {
             const revCtx = document.getElementById('revenueChart').getContext('2d');
             revenueChart = new Chart(revCtx, {
@@ -450,7 +451,6 @@
             });
         }
 
-        // === Update Revenue Chart via AJAX ===
         function updateRevenueChart(year) {
             const title = document.getElementById('revenueChartTitle');
             fetch(`/admin/api/revenue/monthly?year=${year}`)
@@ -468,7 +468,6 @@
             initRevenueChart(months.map(m => `Tháng ${m}`), revenues);
         });
 
-        // Booking Status Pie Chart
         const statusCtx = document.getElementById('statusChart').getContext('2d');
         new Chart(statusCtx, {
             type: 'doughnut',

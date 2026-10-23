@@ -82,19 +82,15 @@ public class NguoiDungService {
         return nguoiDungRepository.save(nguoiDung);
     }
 
-    /**
-     * Thay đổi mật khẩu
-     */
+    
     public void changePassword(Integer userId, String oldPassword, String newPassword) {
         NguoiDung user = nguoiDungRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
 
-        // Kiểm tra mật khẩu cũ
         if (!passwordEncoder.matches(oldPassword, user.getMatKhau())) {
             throw new RuntimeException("Mật khẩu cũ không đúng!");
         }
 
-        // Cập nhật mật khẩu mới
         user.setMatKhau(passwordEncoder.encode(newPassword));
         nguoiDungRepository.save(user);
     }
@@ -107,9 +103,7 @@ public class NguoiDungService {
         return nguoiDungRepository.findByEmail(email).isPresent();
     }
 
-    /**
-     * Cập nhật đường dẫn ảnh đại diện
-     */
+    
     public void updateAvatar(Integer userId, String avatarPath) {
         NguoiDung user = nguoiDungRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));

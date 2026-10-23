@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký - ZakiBooking</title>
+    <title>Đăng ký - BookingDom</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .glass-card {
@@ -17,20 +17,19 @@
 </head>
 
 <body class="font-sans text-slate-800 relative min-h-screen flex items-center justify-center p-4">
-    <!-- Full screen background -->
+    
     <div class="fixed inset-0 z-0">
-        <div class="absolute inset-0 bg-black/40 z-10"></div>
-        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop"
-            alt="Travel Background" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-b from-sky-500 via-sky-200 to-white">
+        </div>
     </div>
 
-    <!-- Centered Glass Card -->
+    
     <div
         class="glass-card w-full max-w-lg rounded-3xl shadow-2xl p-8 sm:p-10 relative z-20 my-8 transition-all duration-300 hover:shadow-3xl">
         <div class="flex flex-col items-center mb-6">
             <img th:src="@{/favicon.icon}" alt="Logo" class="h-16 w-auto object-contain mb-3">
             <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight text-center">Tạo tài khoản mới</h2>
-            <p class="text-slate-500 font-medium mt-1 text-center">Bắt đầu hành trình khám phá cùng ZakiBooking</p>
+            <p class="text-slate-500 font-medium mt-1 text-center">Bắt đầu hành trình khám phá cùng BookingDom</p>
         </div>
 
         <div th:if="${errorMessage}"

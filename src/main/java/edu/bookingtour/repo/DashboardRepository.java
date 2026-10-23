@@ -59,7 +59,7 @@ public interface DashboardRepository extends JpaRepository<DatCho, Integer> {
                         "FROM dat_cho d " +
                         "LEFT JOIN nguoi_dung u ON d.id_nguoi_dung = u.id " +
                         "JOIN chuyen_di c ON d.id_chuyen_di = c.id " +
-                        "ORDER BY d.ngay_dat DESC", 
+                        "ORDER BY d.created_at DESC, d.id DESC", 
                         countQuery = "SELECT COUNT(*) FROM dat_cho",
                         nativeQuery = true)
         org.springframework.data.domain.Page<Object[]> findAllBookingDetails(org.springframework.data.domain.Pageable pageable);
@@ -67,10 +67,9 @@ public interface DashboardRepository extends JpaRepository<DatCho, Integer> {
         @Query("SELECT d.id, COALESCE(d.hoTen, u.hoTen), COALESCE(d.email, u.email), d.idChuyenDi.tieuDe, " +
                         "d.soLuong, d.tongGia, d.ngayDat, d.trangThai, u.id " +
                         "FROM DatCho d LEFT JOIN d.idNguoiDung u " +
-                        "ORDER BY d.ngayDat DESC")
+                        "ORDER BY d.createdAt DESC, d.id DESC")
         List<Object[]> findAllBookingDetails();
 
-        // Thống kê chi tiêu của từng người dùng (đã thanh toán)
         @Query("SELECT COALESCE(d.idNguoiDung.hoTen, d.hoTen) as tenKhach, " +
                         "COALESCE(d.idNguoiDung.email, d.email) as email, " +
                         "COUNT(d) as soLuotMua, " +
@@ -81,7 +80,6 @@ public interface DashboardRepository extends JpaRepository<DatCho, Integer> {
                         "ORDER BY SUM(d.tongGia) DESC")
         List<Object[]> findUserSpendingStats();
 
-        // Lấy danh sách booking chi tiết (khách hàng + số lượng) cho một tour cụ thể
         @Query("SELECT d.hoTen as tenKhach, d.email as email, d.soDienThoai as sdt, " +
                         "d.soLuong as soLuong, d.tongGia as tongGia, d.ngayDat as ngayDat, u.id " +
                         "FROM DatCho d LEFT JOIN d.idNguoiDung u " +

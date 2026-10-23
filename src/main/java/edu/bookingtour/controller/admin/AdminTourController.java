@@ -4,6 +4,7 @@ import edu.bookingtour.entity.ChuyenDi;
 import edu.bookingtour.repo.DiemDenRepository;
 import edu.bookingtour.service.LichTrinhService;
 import edu.bookingtour.service.PhuongTienService;
+import edu.bookingtour.service.NgayKhoiHanhService;
 import edu.bookingtour.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,8 @@ public class AdminTourController {
     private DiemDenRepository diemDenRepository;
     @Autowired
     private edu.bookingtour.repo.DiemDonRepository diemDonRepository;
+    @Autowired
+    private NgayKhoiHanhService ngayKhoiHanhService;
     @Value("${image.path}")
     private String imagePath;
 
@@ -81,6 +84,7 @@ public class AdminTourController {
         tour.setIdPhuongTien(new edu.bookingtour.entity.PhuongTien());
         tour.setIdDiemDon(new edu.bookingtour.entity.DiemDon());
         tour.setIdDiemDen(new edu.bookingtour.entity.DiemDen());
+        tour.setIdNoiLuuTru(new edu.bookingtour.entity.NoiLuuTru());
         model.addAttribute("tour", tour);
         model.addAttribute("phuongTienList", phuongTienService.getDistinctLoai());
         model.addAttribute("chauLucList", diemDenRepository.findDistinctChauLuc());
@@ -91,9 +95,12 @@ public class AdminTourController {
     @PostMapping("/save")
     public String save(@ModelAttribute ChuyenDi chuyenDi, @RequestParam("file") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            File dest = new File(imagePath + fileName);
-            dest.getParentFile().mkdirs();
+            File uploadDir = new File(imagePath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            File dest = new File(uploadDir.getAbsolutePath() + File.separator + fileName);
             file.transferTo(dest);
             chuyenDi.setHinhAnh("/uploads/" + fileName);
         }
@@ -104,6 +111,18 @@ public class AdminTourController {
     @GetMapping("/edit/{id}")
     public String tourEdit(Model model, @PathVariable Integer id) {
         ChuyenDi tour = tourService.findById(id).orElseThrow(() -> new RuntimeException("Tour Not Found"));
+        if (tour.getIdNoiLuuTru() == null) {
+            tour.setIdNoiLuuTru(new edu.bookingtour.entity.NoiLuuTru());
+        }
+        if (tour.getIdDiemDen() == null) {
+            tour.setIdDiemDen(new edu.bookingtour.entity.DiemDen());
+        }
+        if (tour.getIdPhuongTien() == null) {
+            tour.setIdPhuongTien(new edu.bookingtour.entity.PhuongTien());
+        }
+        if (tour.getIdDiemDon() == null) {
+            tour.setIdDiemDon(new edu.bookingtour.entity.DiemDon());
+        }
         model.addAttribute("tour", tour);
         model.addAttribute("phuongTienList", phuongTienService.getDistinctLoai());
         model.addAttribute("chauLucList", diemDenRepository.findDistinctChauLuc());
@@ -121,8 +140,12 @@ public class AdminTourController {
             @RequestParam("file") MultipartFile file) throws IOException {
         ChuyenDi tour = tourService.findById(id).orElseThrow(() -> new RuntimeException("Tour Not Found"));
         if (!file.isEmpty()) {
-            String fileName = UUID.randomUUID() + file.getOriginalFilename();
-            File dest = new File(imagePath + fileName);
+            File uploadDir = new File(imagePath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            File dest = new File(uploadDir.getAbsolutePath() + File.separator + fileName);
             file.transferTo(dest);
             chuyenDi.setHinhAnh("/uploads/" + fileName);
         } else {
@@ -138,6 +161,7 @@ public class AdminTourController {
         model.addAttribute("tour", tour);
         model.addAttribute("source", source);
         model.addAttribute("lichTrinhs", lichTrinhService.getByTour(id));
+        model.addAttribute("danhSach", ngayKhoiHanhService.findByChuyenDiId(id));
         return "admin/tour/tour-detail";
     }
 

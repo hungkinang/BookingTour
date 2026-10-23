@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <!-- Table Card -->
+      
       <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
         <div class="card-body p-0">
           <div class="table-responsive">
@@ -83,7 +83,7 @@
                   </td>
                 </tr>
 
-                <!-- Empty State -->
+                
                 <tr th:if="${#lists.isEmpty(contacts)}">
                   <td colspan="6" class="text-center py-5">
                     <div class="py-4">
@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <!-- Pagination -->
+      
       <div aria-label="Page navigation" th:if="${totalPage > 0}">
         <ul class="pagination justify-content-center">
           <li class="page-item" th:classappend="${page == 0} ? 'disabled'">

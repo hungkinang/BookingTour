@@ -44,13 +44,11 @@ public class DanhGiaController {
             return "redirect:/tour";
         }
 
-        // Check if tour has ended
         if (tour.getNgayKetThuc() == null || tour.getNgayKetThuc().isAfter(LocalDate.now())) {
             redirectAttributes.addFlashAttribute("error", "Bạn chỉ có thể đánh giá sau khi chuyến đi đã kết thúc!");
             return "redirect:/tour/" + tourId;
         }
 
-        // Check if user has a PAID booking for this tour
         List<DatCho> bookings = datChoRepository.findByIdNguoiDungAndIdChuyenDiAndTrangThai(user, tour, "PAID");
         if (bookings.isEmpty()) {
             redirectAttributes.addFlashAttribute("error",

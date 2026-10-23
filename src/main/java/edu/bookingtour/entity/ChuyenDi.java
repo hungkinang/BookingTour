@@ -76,4 +76,12 @@ public class ChuyenDi {
 
     @OneToMany(mappedBy = "idChuyenDi", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<YeuThich> yeuThichs;
-}
+
+    public BigDecimal getTongGia() {
+        BigDecimal total = this.gia != null ? this.gia : BigDecimal.ZERO;
+        if (this.idNoiLuuTru != null && this.idNoiLuuTru.getGia() != null) {
+            total = total.add(this.idNoiLuuTru.getGia());
+        }
+        return total;
+    }
+}

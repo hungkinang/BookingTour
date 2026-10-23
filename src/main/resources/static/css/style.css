@@ -1,9 +1,9 @@
 :root {
     --bs-primary: #DAEFFF !important;
-    /* Xanh nhạt pastel */
+    
     --primary-hover: #BEDBFF;
     --bs-secondary: #000000 !important;
-    /* Đen */
+    
     --bs-dark: #000000 !important;
     --bs-light: #F5F5F5 !important;
     --bs-body-color: #212529 !important;
@@ -11,7 +11,6 @@
     --accent-color: #DAEFFF;
 }
 
-/* Navbar vàng thương hiệu */
 .navbar {
     background-color: var(--bs-primary) !important;
     padding: 0 !important;
@@ -29,7 +28,6 @@
     color: #333 !important;
 }
 
-/* ===================== LOGO & BRANDING ===================== */
 .brand-logo-wrapper {
     background: #000;
     padding: 3px;
@@ -68,9 +66,6 @@
     font-weight: 600 !important;
 }
 
-/* ============================================================ */
-
-/* Dark Mode Toggle Styling */
 #darkModeToggle {
     background: transparent !important;
     border: none !important;
@@ -93,7 +88,6 @@
     transform: scale(1.1);
 }
 
-/* Button vàng */
 .btn-primary {
     background-color: var(--bs-primary) !important;
     border: none !important;
@@ -111,7 +105,6 @@
     transition: all 0.3s ease;
 }
 
-/* Background brand light */
 .bg-brand-light {
     background-color: #fff9e6 !important;
 }
@@ -120,15 +113,12 @@
     color: var(--bs-primary) !important;
 }
 
-/* Search section focus */
 .search-section .form-control:focus,
 .search-section .form-select:focus {
     border-color: var(--bs-primary) !important;
     box-shadow: 0 0 0 0.25rem rgba(254, 207, 47, 0.25) !important;
 }
 
-
-/* Các tiêu đề chính */
 h1,
 h2,
 h3,
@@ -138,7 +128,6 @@ h6 {
     color: var(--bs-dark) !important;
 }
 
-/* Footer đen + chữ trắng */
 footer {
     background-color: var(--bs-dark) !important;
     color: var(--bs-light) !important;
@@ -156,9 +145,6 @@ footer {
     color: #000 !important;
 }
 
-/* ===================== DROPDOWN MENU ===================== */
-
-/* Tổng thể dropdown */
 .navbar .dropdown-menu {
     background-color: #ffffff !important;
     border: none !important;
@@ -167,21 +153,17 @@ footer {
     padding: 1.5rem 2rem !important;
 }
 
-/* Tiêu đề nhóm trong dropdown */
 .navbar .dropdown-menu h6 {
-    /*color: #0077b6 !important; !* xanh biển *!*/
+    
     font-weight: 700 !important;
 }
 
-/* Nhóm vùng (Miền Bắc / Miền Trung...) */
 .navbar .dropdown-menu p {
     color: #212529 !important;
     font-weight: 600 !important;
     margin-bottom: 0.3rem !important;
 }
 
-/* Link địa điểm */
-/* Booking Page Theme Overrides */
 .booking-avatar-bg {
     background-color: #DAEFFF !important;
     color: #000 !important;
@@ -189,7 +171,7 @@ footer {
 
 .text-booking-primary {
     color: #333 !important;
-    /* For text, a slightly darker color is better because DAEFFF is too light */
+    
 }
 
 #bookingTabs .nav-link.active {
@@ -210,65 +192,56 @@ footer {
     padding: 6px 10px !important;
 }
 
-/* Hiệu ứng hover */
 .navbar .dropdown-item:hover {
     background-color: #DAEFFF !important;
-    /* xanh pastel nhẹ */
+    
     color: #000 !important;
 }
 
-/* Loại bỏ hiện tượng mờ hoặc bị disabled */
 .navbar .dropdown-item:disabled {
     opacity: 1 !important;
     color: #999 !important;
     background-color: transparent !important;
 }
 
-/* Chỉnh border giữa các phần */
 .navbar .dropdown-menu .border-bottom {
     border-color: #e9ecef !important;
 }
 
-/* Banner (hero-section) */
-/* ============================= */
-/* Hero Section - Banner đầu trang */
-/* ============================= */
 .hero-section {
     height: 35vh;
-    /* Chiều cao banner */
+    
     background-color: #f5f5f5;
-    /* Nền sáng dịu */
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Căn giữa theo chiều dọc */
+    
     align-items: center;
-    /* Căn giữa theo chiều ngang */
+    
     text-align: center;
     overflow: hidden;
     position: relative;
     padding-top: 90px;
-    /* Đẩy nội dung xuống để không bị navbar che */
+    
     box-sizing: border-box;
 }
 
-/* Dòng chữ hiệu ứng typing */
 #typing-text {
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 800;
     letter-spacing: 1px;
-    /*color: #1E90FF;*/
+    
     white-space: nowrap;
     overflow: hidden;
     width: 0;
     animation: typing 2s steps(34, end) 1 normal both;
-    /* Hiệu ứng gõ chữ */
+    
     line-height: 1.3;
     padding-bottom: 10px;
-    /* Tạo khoảng trống để không bị cắt chữ */
+    
 }
 
-/* Hiệu ứng gõ từng chữ */
 @keyframes typing {
     from {
         width: 0;
@@ -279,30 +252,28 @@ footer {
     }
 }
 
-/* Responsive cho màn nhỏ */
 @media (max-width: 768px) {
     .hero-section {
         padding-top: 100px;
-        /* đẩy thêm chút cho mobile */
+        
         height: auto;
     }
 
     #typing-text {
         white-space: normal;
-        /* Cho phép xuống dòng */
+        
         width: 100% !important;
-        /* Hiển thị toàn bộ chữ */
+        
         overflow: visible;
-        /* Không ẩn phần dư */
+        
         animation: none;
-        /* Tắt hiệu ứng typing trên mobile */
+        
         text-align: center;
         font-size: 1.6rem;
-        /* Giảm kích thước cho vừa khung */
+        
     }
 }
 
-/* Carousel item */
 #reviewCarousel .carousel-item {
     background-color: transparent !important;
     color: #000 !important;
@@ -310,7 +281,6 @@ footer {
     text-align: center;
 }
 
-/* Phần nội dung đánh giá */
 #reviewCarousel blockquote {
     background-color: transparent !important;
     color: #000 !important;
@@ -323,14 +293,13 @@ footer {
     box-shadow: none !important;
 }
 
-/* Tên người đánh giá */
 #reviewCarousel .blockquote-footer {
     background-color: transparent !important;
     color: #555 !important;
     font-weight: 500;
     text-align: center;
     margin-top: 0.3rem;
-    /* giảm khoảng cách giữa nội dung và tên */
+    
     font-style: italic;
     font-size: 0.95rem;
 }
@@ -347,7 +316,6 @@ footer {
     color: white !important;
 }
 
-/* Link and interactive colors */
 a {
     color: #000;
     transition: color 0.2s;
@@ -357,14 +325,11 @@ a:hover {
     color: var(--primary-hover);
 }
 
-/* ===================== DROPDOWN & MEGA MENU TỐI ƯU ===================== */
-
-/* 1. Mặc định cho MOBILE (Dưới 992px) */
 @media (max-width: 991.98px) {
     .navbar .dropdown-menu {
         width: 100% !important;
         position: static !important;
-        /* Quan trọng: Để nó đẩy các menu khác xuống thay vì nằm đè lên */
+        
         transform: none !important;
         float: none !important;
         border-radius: 0 !important;
@@ -373,7 +338,7 @@ a:hover {
         border-bottom: 1px solid #eee !important;
     }
 
-    /* Chia lại cột trên mobile để không bị quá hẹp */
+    
     .mega-menu .col-6 {
         width: 50%;
     }
@@ -383,45 +348,42 @@ a:hover {
     }
 }
 
-/* 2. Cho DESKTOP (Từ 992px trở lên) */
 @media (min-width: 992px) {
 
-    /* Ép thẻ li cha phải có position static để menu con rộng theo container của Navbar */
+    
     .nav-item.dropdown.position-static-lg {
         position: static !important;
     }
 
     .mega-menu {
         width: 90vw !important;
-        /* Tăng độ rộng để đẹp hơn */
+        
         max-width: 1100px;
         left: 50% !important;
         top: 100% !important;
         transform: translateX(-50%) !important;
         display: none;
-        /* Mặc định ẩn, Bootstrap sẽ tự hiển thị khi click */
+        
     }
 
     .navbar .nav-item.dropdown:hover .dropdown-menu {
         display: block;
-        /* (Tùy chọn) Hiện khi hover nếu muốn */
+        
     }
 }
 
-/* 3. Style nội dung bên trong (Dùng chung) */
 .navbar .dropdown-menu h6 {
-    /*color: #0077b6 !important;*/
+    
     font-weight: 700 !important;
     font-size: 1rem;
 }
 
 .navbar .dropdown-item {
     white-space: normal;
-    /* Cho phép chữ xuống dòng nếu quá dài */
+    
     padding: 8px 12px !important;
 }
 
-/* Lưới lịch 7 cột */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -436,7 +398,6 @@ a:hover {
     text-transform: uppercase;
 }
 
-/* Ô ngày chung */
 .calendar-day {
     border: 1px solid #eee;
     border-radius: 8px;
@@ -450,10 +411,9 @@ a:hover {
     background-color: #fff;
 }
 
-/* Ngày có tour và giá */
 .has-tour {
     border-color: #dc3545;
-    /* Màu đỏ bootstrap */
+    
     cursor: pointer;
 }
 
@@ -463,20 +423,17 @@ a:hover {
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.1);
 }
 
-/* Ngày đang được chọn (Active) */
 .has-tour.active-day {
     background-color: #fff;
     border: 2px solid #dc3545;
     position: relative;
 }
 
-/* Số ngày */
 .day-num {
     font-weight: 600;
     font-size: 1rem;
 }
 
-/* Giá vé dưới số ngày */
 .price-sub {
     font-size: 0.7rem;
     font-weight: bold;
@@ -484,7 +441,6 @@ a:hover {
     margin-top: 2px;
 }
 
-/* Ngày của tháng khác */
 .other-month {
     color: #ccc;
     background-color: #f9f9f9;
@@ -520,7 +476,7 @@ a:hover {
     border: 1px solid #eee;
     border-radius: 8px;
     min-height: 60px;
-    /* Phải có chiều cao để có diện tích click */
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -530,42 +486,37 @@ a:hover {
     transition: all 0.2s;
 }
 
-/* Hiệu ứng khi di chuột */
 .calendar-day:hover {
     border-color: #ffc107;
     background-color: #fff9e6;
 }
 
-/* Màu sắc khi ngày được chọn */
 .calendar-day.active-day {
     border: 2px solid #dc3545;
     background-color: #fff5f5;
 }
 
-/* Màu sắc cho các ngày thuộc tháng khác (mờ đi) */
 .calendar-day.other-month {
     color: #ccc;
     background-color: #f9f9f9;
     pointer-events: none;
-    /* Không cho click vào ngày tháng khác */
+    
     border: none;
 }
 
-/* Màu sắc cho các nút chọn tháng khi được chọn */
 .month-btn.active {
     background-color: #ffc107 !important;
-    /* Màu vàng như trong ảnh */
+    
     color: #000 !important;
     border: none;
 }
 
-/* Ngày đã qua: mờ đi, gạch ngang số và không cho bấm */
 .disabled-day {
     background-color: #f1f3f5 !important;
     color: #adb5bd !important;
     cursor: not-allowed !important;
     pointer-events: none;
-    /* Chặn click chuột hoàn toàn */
+    
 }
 
 .disabled-day .day-num {
@@ -573,7 +524,6 @@ a:hover {
     opacity: 0.5;
 }
 
-/* Giữ nguyên màu cho ngày thuộc tháng khác nhưng chưa qua */
 .other-month:not(.disabled-day) {
     color: #ccc;
 }
@@ -584,15 +534,14 @@ a:hover {
 }
 
 .sticky-price-box {
-    /*position: -webkit-sticky; */
+    
     position: sticky;
     top: 80px;
-    /* Khoảng cách từ mép trên trình duyệt khi trôi (tùy chỉnh theo chiều cao navbar của mày) */
+    
     z-index: 100;
     transition: all 0.3s ease;
 }
 
-/* CSS cho ngày đã qua (như đã nói ở bước trước) */
 .disabled-day {
     background-color: #f1f3f5 !important;
     color: #adb5bd !important;
@@ -605,7 +554,6 @@ a:hover {
     opacity: 0.5;
 }
 
-/* Sidebar Menu Styling */
 .profile-sidebar-menu .menu-item a {
     text-decoration: none;
     color: #333;
@@ -631,13 +579,11 @@ a:hover {
     color: var(--bs-primary);
 }
 
-/* Custom Search Box */
 .search-box-container .form-control:focus {
     box-shadow: none;
     background-color: #fff;
 }
 
-/* Tabs Styling */
 .nav-tabs .nav-link {
     border: none;
     color: #555;
@@ -645,16 +591,14 @@ a:hover {
 }
 
 .nav-tabs .nav-link.active {
-    /*color: #0056b3 !important;*/
+    
     background-color: transparent !important;
 }
 
-/* Card Shadow */
 .shadow-sm {
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 }
 
-/* Biểu tượng yêu thích */
 .text-danger {
     color: #e31c25 !important;
 }
@@ -709,7 +653,6 @@ a:hover {
     cursor: pointer;
 }
 
-/* ===================== MEMBERSHIP TIERS ===================== */
 .tier-badge {
     display: inline-flex;
     align-items: center;
@@ -752,7 +695,6 @@ a:hover {
     border: 1px solid rgba(92, 107, 192, 0.4);
 }
 
-/* Progress bar next tier */
 .tier-progress-wrap {
     background: rgba(0, 0, 0, 0.07);
     border-radius: 10px;
@@ -786,19 +728,16 @@ a:hover {
     background: linear-gradient(90deg, #42a5f5, #5c6bc0);
 }
 
-/* ===================== PREMIUM INDEX DESIGN ===================== */
-/* Hero Section */
 .hero-section {
-    min-height: 80vh !important;
-    background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop');
+    min-height: 60vh !important;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    /* Parallax effect */
+    
     margin-top: -60px;
-    /* Overlap navbar slightly if transparent, or just fill */
+    
     padding-top: 100px;
-    /* Space for navbar */
+    
 }
 
 .hero-overlay {
@@ -814,7 +753,6 @@ a:hover {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Floating Search */
 .floating-search-section {
     position: relative;
     z-index: 10;
@@ -835,14 +773,10 @@ a:hover {
     box-shadow: 0 10px 20px rgba(254, 207, 47, 0.4) !important;
 }
 
-/* Background Gradients */
 .bg-light-gradient {
     background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
 }
 
-
-
-/* Section Title Underline */
 .section-title::after {
     content: '';
     position: absolute;
@@ -855,7 +789,6 @@ a:hover {
     border-radius: 2px;
 }
 
-/* Cards & Animations */
 .destination-card,
 .tour-card,
 .review-card {
@@ -893,7 +826,6 @@ a:hover {
     object-fit: cover !important;
 }
 
-/* Text Truncate */
 .text-truncate-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -901,7 +833,6 @@ a:hover {
     overflow: hidden;
 }
 
-/* Tour overlay action */
 .tour-overlay-action {
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 2;
@@ -919,7 +850,6 @@ a:hover {
     opacity: 1;
 }
 
-/* Reviews Carousel */
 .tracking-wider {
     letter-spacing: 2px;
 }
@@ -933,8 +863,6 @@ a:hover {
     transform: scale(1.1);
 }
 
-
-/* 1. Header & Footer (Darker than Pastel) */
 header,
 footer,
 .navbar,
@@ -944,7 +872,6 @@ footer.bg-dark {
     color: #000000 !important;
 }
 
-/* Override text inside Footer / Header */
 footer *,
 .navbar * {
     color: #000000 !important;
@@ -954,13 +881,11 @@ footer *,
     color: #3498DB !important;
 }
 
-/* Exceptionally keep images and elements looking okay */
 img {
     color: inherit;
-    /* no-op but safe */
+    
 }
 
-/* 3. Text globally Black */
 *,
 p,
 h1,
@@ -980,13 +905,11 @@ li,
     color: #000000 !important;
 }
 
-/* Except price colors which can stay red or just black. Let's make them black as requested "chỉnh màu chữ thành đen cho dễ nhìn" */
 .text-danger {
     color: #c0392b !important;
-    /* Keep a bit of red for prices but readable on blue */
+    
 }
 
-/* 4. Convert all Yellows (warnings) to Blue (#3498DB) */
 .tour-badge.bg-primary {
     background-color: #3498DB !important;
     color: #000000 !important;
@@ -996,13 +919,13 @@ li,
 .btn-warning:hover {
     background-color: #2874A6 !important;
     color: #fff !important;
-    /* White text on dark blue button is okay, or black */
+    
 }
 
 .text-warning,
 .text-bs-warning {
     color: #21618C !important;
-    /* Dark blue for warning text */
+    
 }
 
 .border-warning {
@@ -1014,7 +937,6 @@ textarea::placeholder {
     color: #555 !important;
 }
 
-/* Overrides for specific primary buttons that might be colored Pastel Blue (#DAEFFF) to look consistent */
 .btn-primary {
     background-color: #3498DB !important;
     border-color: #3498DB !important;
@@ -1026,12 +948,12 @@ textarea::placeholder {
     color: #fff !important;
 }
 
-/* Force Star colors to override the global wildcard black */
-.bi-star-fill, .bi-star, i[class*="bi-star"] {
+.bi-star-fill,
+.bi-star,
+i[class*="bi-star"] {
     color: #FFC107 !important;
 }
 
-/* Force outline buttons hover to layout background (#AED6F1) */
 [class*="btn-outline-"]:hover,
 .btn-outline-dark:hover,
 .btn-outline-primary:hover,
@@ -1041,7 +963,6 @@ textarea::placeholder {
     border-color: #AED6F1 !important;
 }
 
-/* GLOBAL PAGINATION STANDARDIZATION */
 .pagination {
     gap: 5px;
 }
@@ -1056,7 +977,7 @@ textarea::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: all 0.3s;
     background-color: #ffffff;
     padding: 0 15px;

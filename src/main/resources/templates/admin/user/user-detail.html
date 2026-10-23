@@ -91,9 +91,9 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Stats & History -->
+                    
                     <div class="col-lg-8">
-                        <!-- Stat Cards -->
+                        
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
                                 <div class="card border-0 shadow-sm rounded-4 h-100 bg-white">
@@ -146,7 +146,7 @@
                             </div>
                         </div>
 
-                        <!-- Booking History Table -->
+                        
                         <div class="card border-0 shadow-sm rounded-4">
                             <div
                                 class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
@@ -205,7 +205,7 @@
                                                     <button class="btn btn-sm btn-light border rounded-pill px-3"
                                                         th:data-id="${booking.id}"
                                                         th:data-tour="${booking.idChuyenDi.tieuDe}"
-                                                        th:data-price="${booking.idChuyenDi.gia}"
+                                                        th:data-price="${booking.idChuyenDi.tongGia}"
                                                         th:data-people="${booking.soLuong}"
                                                         th:data-total="${booking.tongGia}"
                                                         th:data-date="${#temporals.format(booking.ngayDat, 'dd/MM/yyyy HH:mm')}"
@@ -308,7 +308,7 @@
                             </div>
                         </div>
                         <div class="modal-footer border-0 p-4 pt-0">
-                            <button type="button" class="btn btn-dark w-100 rounded-pill py-2"
+                            <button type="button" class="btn btn-outline-dark w-100 rounded-pill py-2"
                                 data-bs-dismiss="modal">Đóng</button>
                         </div>
                     </div>

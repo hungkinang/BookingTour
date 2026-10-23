@@ -25,7 +25,6 @@ public class FavoriteService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với username: " + username));
         ChuyenDi tour = TourService.findByIdd(tourid);
 
-        // Prevent duplicate favorites
         if (yeuThichRepository.existsByIdNguoiDungAndIdChuyenDi(user, tour)) {
             return;
         }

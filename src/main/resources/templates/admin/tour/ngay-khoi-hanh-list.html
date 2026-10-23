@@ -15,7 +15,7 @@
                 <h4 class="fw-bold mb-0" th:text="'Ngày khởi hành - ' + ${tour.tieuDe}"></h4>
             </div>
 
-            <!-- Form thêm ngày khởi hành mới -->
+            
             <div class="card mb-4 shadow-sm border-0">
                 <div class="card-body">
                     <h6 class="fw-bold mb-3"><i class="bi bi-plus-circle me-2"></i>Thêm ngày khởi hành</h6>
@@ -59,10 +59,8 @@
                                 const firstRow = container.querySelector('.date-row');
                                 const newRow = firstRow.cloneNode(true);
 
-                                // Reset values
                                 newRow.querySelectorAll('input').forEach(input => input.value = '');
 
-                                // Show remove button
                                 const removeBtn = newRow.querySelector('.remove-row-btn');
                                 removeBtn.style.display = 'inline-block';
                                 removeBtn.addEventListener('click', function () {
@@ -80,7 +78,7 @@
                 </div>
             </div>
 
-            <!-- Bảng danh sách -->
+            
             <div class="card shadow-sm border-0">
                 <div class="card-body">
                     <div th:if="${#lists.isEmpty(danhSach)}" class="text-center text-muted py-4">

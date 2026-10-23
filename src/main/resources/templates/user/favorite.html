@@ -16,7 +16,7 @@
 
         <div class="row">
 
-            <!-- SIDEBAR (GIỐNG PROFILE) -->
+            
             <div class="col-lg-3 mb-4">
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-4">
@@ -48,7 +48,7 @@
                                 <i class="bi bi-luggage me-2"></i> Đơn đặt chỗ
                             </a>
 
-                            <!-- ACTIVE FAVORITES -->
+                            
                             <a th:href="@{/favorites/my-favorites}"
                                class="list-group-item list-group-item-action fw-bold
                                border-0 bg-light rounded mb-1">
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <!-- MAIN CONTENT -->
+            
             <div class="col-lg-9">
 
                 <div class="d-flex align-items-center mb-4">
@@ -120,7 +120,7 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="text-danger fw-bold"
-                                          th:text="${#numbers.formatDecimal(item.idChuyenDi.gia,0,'COMMA',0,'POINT')} + ' đ'"></span>
+                                          th:text="${#numbers.formatDecimal(item.idChuyenDi.tongGia,0,'COMMA',0,'POINT')} + ' đ'"></span>
                                     <a th:href="@{/tour/{id}(id=${item.idChuyenDi.id})}"
                                        class="btn btn-outline-primary btn-sm rounded-pill">
                                         Chi tiết

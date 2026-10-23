@@ -8,26 +8,29 @@
   <div class="d-flex bg-light min-vh-100">
     <nav th:replace="~{layout/admin_layout :: nav()}"></nav>
     <div class="container-fluid p-4">
+
       
-      <!-- HEADER -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-1">
-              <li class="breadcrumb-item"><a th:href="@{/admin/tour/active}" class="text-decoration-none text-muted fw-bold">Chuyến đi</a></li>
+              <li class="breadcrumb-item"><a th:href="@{/admin/tour/active}"
+                  class="text-decoration-none text-muted fw-bold">Chuyến đi</a></li>
               <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">Thêm mới</li>
             </ol>
           </nav>
           <h3 class="fw-bolder mb-0 text-dark"><i class="bi bi-briefcase text-primary me-2"></i>Tạo Chuyến Đi Mới</h3>
         </div>
-        <a th:href="@{/admin/tour/active}" class="btn btn-outline-dark btn-sm rounded-pill px-3 fw-bold shadow-sm bg-white">
-            <i class="bi bi-arrow-left me-1"></i> Quay lại
+        <a th:href="@{/admin/tour/active}"
+          class="btn btn-outline-dark btn-sm rounded-pill px-3 fw-bold shadow-sm bg-white">
+          <i class="bi bi-arrow-left me-1"></i> Quay lại
         </a>
       </div>
 
-      <form th:action="@{/admin/tour/save}" th:object="${tour}" method="post" enctype="multipart/form-data" autocomplete="off">
+      <form th:action="@{/admin/tour/save}" th:object="${tour}" method="post" enctype="multipart/form-data"
+        autocomplete="off">
         <div class="row g-4">
-          <!-- LEFT COLUMN -->
+          
           <div class="col-lg-8">
             <div class="card border-0 shadow-sm rounded-4 mb-4">
               <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
@@ -36,27 +39,32 @@
               <div class="card-body p-4">
                 <div class="row g-3">
                   <div class="col-12">
-                    <label class="form-label fw-semibold text-muted small text-uppercase">Tên / Tiêu đề chuyến đi <span class="text-danger">*</span></label>
-                    <input type="text" th:field="*{tieuDe}" class="form-control form-control-lg bg-light" placeholder="Nhập tiêu đề hấp dẫn..." required>
+                    <label class="form-label fw-semibold text-muted small text-uppercase">Tên / Tiêu đề chuyến đi <span
+                        class="text-danger">*</span></label>
+                    <input type="text" th:field="*{tieuDe}" class="form-control form-control-lg bg-light"
+                      placeholder="Nhập tiêu đề hấp dẫn..." required>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label fw-semibold text-muted small text-uppercase">Giá gốc (VND) <span class="text-danger">*</span></label>
+                    <label class="form-label fw-semibold text-muted small text-uppercase">Giá gốc (VND) <span
+                        class="text-danger">*</span></label>
                     <div class="input-group">
-                      <input type="number" th:field="*{gia}" class="form-control bg-light" placeholder="1000000" min="0" required>
+                      <input type="number" th:field="*{gia}" class="form-control bg-light" placeholder="1000000" min="0"
+                        required>
                       <span class="input-group-text bg-white border-start-0 fw-bold">₫</span>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label fw-semibold text-muted small text-uppercase">Nhãn Nổi Bật</label>
                     <div class="d-flex gap-3 align-items-center mt-2">
-                       <div class="form-check form-check-inline">
-                         <input class="form-check-input" type="radio" th:field="*{noiBat}" th:value="true" id="yes">
-                         <label class="form-check-label fw-bold" for="yes"><span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>Bật</span></label>
-                       </div>
-                       <div class="form-check form-check-inline">
-                         <input class="form-check-input" type="radio" th:field="*{noiBat}" th:value="false" id="no">
-                         <label class="form-check-label fw-bold text-muted" for="no">Tắt</label>
-                       </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" th:field="*{noiBat}" th:value="true" id="yes">
+                        <label class="form-check-label fw-bold" for="yes"><span class="badge bg-warning text-dark"><i
+                              class="bi bi-star-fill me-1"></i>Bật</span></label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" th:field="*{noiBat}" th:value="false" id="no">
+                        <label class="form-check-label fw-bold text-muted" for="no">Tắt</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -70,21 +78,25 @@
               <div class="card-body p-4">
                 <div class="row g-4">
                   <div class="col-12">
-                    <label class="form-label fw-semibold text-muted small text-uppercase">Điểm nhấn chuyến đi (Highlight) <span class="text-danger">*</span></label>
-                    <textarea th:field="*{highlight}" class="form-control bg-light" rows="3" placeholder="Các trải nghiệm độc quyền chỉ có tại tour này..." required></textarea>
+                    <label class="form-label fw-semibold text-muted small text-uppercase">Điểm nhấn chuyến đi
+                      (Highlight) <span class="text-danger">*</span></label>
+                    <textarea th:field="*{highlight}" class="form-control bg-light" rows="3"
+                      placeholder="Các trải nghiệm độc quyền chỉ có tại tour này..." required></textarea>
                   </div>
                   <div class="col-12">
-                    <label class="form-label fw-semibold text-muted small text-uppercase">Mô tả đầy đủ (Description) <span class="text-danger">*</span></label>
-                    <textarea th:field="*{moTa}" class="form-control bg-light" rows="5" placeholder="Thông tin chi tiết về chuyến đi..." required></textarea>
+                    <label class="form-label fw-semibold text-muted small text-uppercase">Mô tả đầy đủ (Description)
+                      <span class="text-danger">*</span></label>
+                    <textarea th:field="*{moTa}" class="form-control bg-light" rows="5"
+                      placeholder="Thông tin chi tiết về chuyến đi..." required></textarea>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT COLUMN -->
+          
           <div class="col-lg-4">
-            
+
             <div class="card border-0 shadow-sm rounded-4 mb-4">
               <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
                 <h5 class="fw-bold"><i class="bi bi-geo-alt text-primary me-2"></i>Hành trình</h5>
@@ -92,16 +104,22 @@
               <div class="card-body p-4">
                 <div class="row g-3">
                   <div class="col-6">
-                    <label class="form-label fw-semibold text-muted small">Khởi hành <span class="text-danger">*</span></label>
-                    <input type="date" th:field="*{ngayKhoiHanh}" th:attr="min=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" class="form-control bg-light" required>
+                    <label class="form-label fw-semibold text-muted small">Khởi hành <span
+                        class="text-danger">*</span></label>
+                    <input type="date" th:field="*{ngayKhoiHanh}"
+                      th:attr="min=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
+                      class="form-control bg-light" required>
                   </div>
                   <div class="col-6">
-                    <label class="form-label fw-semibold text-muted small">Kết thúc <span class="text-danger">*</span></label>
-                    <input type="date" th:field="*{ngayKetThuc}" th:attr="min=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" class="form-control bg-light" required>
+                    <label class="form-label fw-semibold text-muted small">Kết thúc <span
+                        class="text-danger">*</span></label>
+                    <input type="date" th:field="*{ngayKetThuc}"
+                      th:attr="min=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
+                      class="form-control bg-light" required>
                   </div>
-                  
+
                   <div class="col-12">
-                     <hr class="text-muted opacity-25">
+                    <hr class="text-muted opacity-25">
                   </div>
 
                   <div class="col-6">
@@ -128,7 +146,14 @@
                   </div>
 
                   <div class="col-12">
-                     <hr class="text-muted opacity-25">
+                    <label class="form-label fw-semibold text-muted small">Nơi lưu trú</label>
+                    <select id="noiLuuTru" class="form-select bg-light" th:field="*{idNoiLuuTru.id}">
+                      <option value="">-- Chọn nơi lưu trú --</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12">
+                    <hr class="text-muted opacity-25">
                   </div>
 
                   <div class="col-12">
@@ -154,20 +179,20 @@
               <div class="card-body p-4">
                 <input type="file" name="file" class="form-control" accept="image/*" required>
                 <div class="mt-3 text-center p-3 border rounded bg-light text-muted small">
-                   Khuyên dùng ảnh chất lượng cao (.jpg, .png) tỉ lệ 16:9
+                  Khuyên dùng ảnh chất lượng cao (.jpg, .png) tỉ lệ 16:9
                 </div>
               </div>
             </div>
 
             <div class="d-grid gap-2">
-               <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">
-                 <i class="bi bi-save me-1"></i> Tạo Chuyến Đi
-               </button>
-               <a th:href="@{/admin/tour/active}" class="btn btn-outline-secondary rounded-pill fw-bold">
-                 Hủy bỏ
-               </a>
+              <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">
+                <i class="bi bi-save me-1"></i> Tạo Chuyến Đi
+              </button>
+              <a th:href="@{/admin/tour/active}" class="btn btn-outline-secondary rounded-pill fw-bold">
+                Hủy bỏ
+              </a>
             </div>
-            
+
           </div>
         </div>
       </form>
@@ -178,33 +203,42 @@
     const dataDiaDiem = {
       "Trong nước": {
         "Việt Nam": [
-          { id: 1, ten: "Sapa" }, { id: 2, ten: "Hạ Long" }, { id: 3, ten: "Đà Nẵng" },
-          { id: 4, ten: "Huế" }, { id: 5, ten: "Phú Quốc" }, { id: 6, ten: "Cần Thơ" }
+          { id: 1, ten: "Hà Nội" }, { id: 2, ten: "Đà Nẵng" }, { id: 3, ten: "Huế" },
+          { id: 4, ten: "Hạ Long" }, { id: 5, ten: "Nha Trang" }, { id: 6, ten: "Phú Quốc" },
+          { id: 7, ten: "Sapa" }, { id: 8, ten: "Cần Thơ" }
         ]
       },
       "Châu Á": {
-        "Thái Lan": [{ id: 7, ten: "Bangkok" }],
-        "Singapore": [{ id: 8, ten: "Singapore" }],
-        "Hàn Quốc": [{ id: 9, ten: "Seoul" }]
+        "Trung Quốc": [{ id: 9, ten: "Bắc Kinh" }],
+        "Trung Quốc": [{ id: 10, ten: "Thượng Hải" }],
+        "Trung Quốc": [{ id: 11, ten: "Trương Gia Giới" }],
+        "Nhật Bản": [{ id: 12, ten: "Tokyo" }],
+        "Nhật Bản": [{ id: 13, ten: "Kyoto" }],
+        "Nhật Bản": [{ id: 14, ten: "Osaka" }],
+        "Hàn Quốc": [{ id: 15, ten: "Seoul" }],
+        "Thái Lan": [{ id: 16, ten: "Bangkok" }],
+        "Singapore": [{ id: 17, ten: "Singapore" }]
       },
       "Châu Âu": {
-        "Pháp": [{ id: 10, ten: "Paris" }],
-        "Đức": [{ id: 11, ten: "Berlin" }]
+        "Pháp": [{ id: 18, ten: "Paris" }],
+        "Đức": [{ id: 19, ten: "Berlin" }]
       },
       "Châu Mỹ": {
-        "Mỹ": [{ id: 12, ten: "New York" }],
-        "Canada": [{ id: 13, ten: "Toronto" }]
+        "Mỹ": [{ id: 20, ten: "New York" }],
+        "Canada": [{ id: 21, ten: "Toronto" }]
       }
     };
 
     const chauLucSelect = document.getElementById("chauLuc");
     const quocGiaSelect = document.getElementById("quocGia");
     const thanhPhoSelect = document.getElementById("thanhPho");
+    const noiLuuTruSelect = document.getElementById("noiLuuTru");
 
     chauLucSelect.addEventListener("change", function () {
       const chauLuc = this.value;
       quocGiaSelect.innerHTML = '<option value="">-- Chọn --</option>';
       thanhPhoSelect.innerHTML = '<option value="">-- Thành phố --</option>';
+      noiLuuTruSelect.innerHTML = '<option value="">-- Chọn nơi lưu trú --</option>';
       if (!dataDiaDiem[chauLuc]) return;
       Object.keys(dataDiaDiem[chauLuc]).forEach(qg => {
         const option = document.createElement("option");
@@ -217,6 +251,7 @@
       const chauLuc = chauLucSelect.value;
       const quocGia = this.value;
       thanhPhoSelect.innerHTML = '<option value="">-- Thành phố --</option>';
+      noiLuuTruSelect.innerHTML = '<option value="">-- Chọn nơi lưu trú --</option>';
       if (!dataDiaDiem[chauLuc] || !dataDiaDiem[chauLuc][quocGia]) return;
       dataDiaDiem[chauLuc][quocGia].forEach(tp => {
         const option = document.createElement("option");
@@ -224,8 +259,27 @@
         thanhPhoSelect.appendChild(option);
       });
     });
+
+    thanhPhoSelect.addEventListener("change", function () {
+      const diemDenId = this.value;
+      noiLuuTruSelect.innerHTML = '<option value="">-- Chọn nơi lưu trú --</option>';
+      if (!diemDenId) return;
+
+      fetch(`/api/dia-diem/noi-luu-tru?diemDenId=${diemDenId}`)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(nlt => {
+            const option = document.createElement("option");
+            option.value = nlt.id;
+            option.textContent = nlt.ten + " (" + nlt.loai + ")";
+            noiLuuTruSelect.appendChild(option);
+          });
+        })
+        .catch(error => console.error("Error fetching accommodations:", error));
+    });
   </script>
 
 </body>
 <footer th:replace="~{layout/admin_layout :: footer()}"></footer>
+
 </html>
